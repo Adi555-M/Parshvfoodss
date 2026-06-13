@@ -1,0 +1,6 @@
+{
+  "name": "Parshv Foods",
+  "description": "Mobile-first vegetable delivery service in Surat, Gujarat. Browse fresh organic, leafy, root, and seasonal vegetables, organize your active basket, save your delivery details, and order directly on WhatsApp.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
