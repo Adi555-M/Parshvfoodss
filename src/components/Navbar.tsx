@@ -43,18 +43,11 @@ export default function Navbar({
           {/* Logo & Brand Details */}
           <div 
             onClick={() => handleLinkClick('home')} 
-            className="flex items-center gap-2 cursor-pointer group active:scale-95 transition-transform"
+            className="flex items-center gap-2 cursor-pointer group active:scale-95 transition-transform text-white select-none"
           >
-            <div className="w-8 h-8 rounded-full bg-white flex items-center justify-center p-0.5 shadow-md overflow-hidden">
-              <img 
-                src="/public/logo.jpeg" 
-                alt="Parshv Foods Logo" 
-                className="w-full h-full object-cover rounded-full" 
-                referrerPolicy="no-referrer"
-              />
-            </div>
-            <span className="font-extrabold text-lg sm:text-lg tracking-tight hover:text-green-100 transition-colors flex items-center gap-1">
-              Parshv Foods <Leaf className="w-4.5 h-4.5 text-green-200 inline" />
+            <Leaf className="w-6.5 h-6.5 text-[#FFF] inline" />
+            <span className="font-extrabold text-[#FFF] text-lg sm:text-xl tracking-tight hover:text-green-100 transition-colors">
+              Parshv Foods
             </span>
           </div>
 
@@ -79,15 +72,10 @@ export default function Navbar({
             <button
               id="nav-profile-btn"
               onClick={onProfileClick}
-              className={`relative w-10 h-10 rounded-full hover:bg-white/20 flex items-center justify-center shadow-inner transition-all active:scale-95 ${
-                isProfileFilled ? 'bg-[#FFA000]/20 ring-2 ring-[#FFA000]' : 'bg-white/10'
-              }`}
+              className="relative w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center shadow-inner transition-all active:scale-95"
               aria-label="Edit Profile"
             >
-              <User className={`w-5 h-5 ${isProfileFilled ? 'text-yellow-400' : 'text-white'}`} />
-              {isProfileFilled && (
-                <span className="absolute top-0 right-0 w-2.5 h-2.5 bg-[#FFA000] rounded-full ring-1 ring-white" />
-              )}
+              <User className="w-5 h-5 text-white" />
             </button>
 
             {/* Hamburger Button */}

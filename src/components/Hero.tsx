@@ -1,10 +1,15 @@
+import React from 'react';
 import { motion } from 'motion/react';
+import { Leaf } from 'lucide-react';
+import heroLogo from '../assets/images/regenerated_image_1781430026139.jpg';
 
 interface HeroProps {
   onOrderNowClick: () => void;
 }
 
 export default function Hero({ onOrderNowClick }: HeroProps) {
+  const [logoError, setLogoError] = React.useState(false);
+
   return (
     <section id="home" className="px-4 py-6 sm:py-8 max-w-7xl mx-auto">
       {/* Container with light green background and large borders */}
@@ -18,14 +23,22 @@ export default function Hero({ onOrderNowClick }: HeroProps) {
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.5, ease: 'easeOut' }}
-          className="relative w-28 h-28 sm:w-32 sm:h-32 rounded-full border-4 border-white shadow-lg overflow-hidden bg-white mb-6 active:scale-95 transition-transform"
+          className="relative w-28 h-28 sm:w-32 sm:h-32 rounded-full border-4 border-white shadow-lg overflow-hidden bg-white mb-6 active:scale-95 transition-transform flex items-center justify-center"
         >
-          <img
-            src="/public/logo.jpeg"
-            alt="Parshv Foods"
-            className="w-full h-full object-cover rounded-full"
-            referrerPolicy="no-referrer"
-          />
+          {!logoError ? (
+            <img
+              src={heroLogo}
+              alt="Parshv Foods"
+              className="w-full h-full object-cover rounded-full"
+              onError={() => setLogoError(true)}
+              referrerPolicy="no-referrer"
+            />
+          ) : (
+            <div className="w-full h-full flex flex-col items-center justify-center bg-white p-4 text-[#2E7D32]">
+              <Leaf className="w-10 h-10 mb-1 animate-pulse" />
+              <span className="font-extrabold text-xs tracking-wider uppercase text-gray-700">Parshv</span>
+            </div>
+          )}
         </motion.div>
 
         {/* Hero Title */}

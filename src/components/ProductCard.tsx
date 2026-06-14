@@ -24,6 +24,34 @@ export default function ProductCard({
   const [isDropdownOpen, setIsDropdownOpen] = React.useState(false);
   const dropdownRef = React.useRef<HTMLDivElement>(null);
 
+  const [lastAction, setLastAction] = React.useState<'added' | 'removed' | null>(null);
+  const [showIndicator, setShowIndicator] = React.useState(false);
+  const prevQuantityRef = React.useRef(quantity);
+
+  React.useEffect(() => {
+    if (quantity > prevQuantityRef.current) {
+      setLastAction('added');
+      setShowIndicator(true);
+    } else if (quantity < prevQuantityRef.current) {
+      setLastAction('removed');
+      setShowIndicator(true);
+      const timer = setTimeout(() => {
+        if (quantity === 0) {
+          setShowIndicator(false);
+        } else {
+          setLastAction('added');
+        }
+      }, 2000);
+      return () => clearTimeout(timer);
+    } else if (quantity > 0) {
+      setLastAction('added');
+      setShowIndicator(true);
+    } else {
+      setShowIndicator(false);
+    }
+    prevQuantityRef.current = quantity;
+  }, [quantity]);
+
   // Close dropdown on outside click
   React.useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
@@ -228,17 +256,28 @@ export default function ProductCard({
 
         {/* [F] Added to Basket Status indicator */}
         <div className="h-9 relative overflow-hidden">
-          <AnimatePresence>
-            {quantity > 0 && (
+          <AnimatePresence mode="wait">
+            {showIndicator && lastAction === 'added' ? (
               <motion.div
+                key="added"
                 initial={{ opacity: 0, scale: 0.9, y: 10 }}
                 animate={{ opacity: 1, scale: 1, y: 0 }}
                 exit={{ opacity: 0, scale: 0.9, y: 10 }}
-                className="absolute inset-0 bg-white border border-green-200 rounded-full flex items-center justify-center gap-1 text-xs font-bold text-[#2E7D32] shadow-xs cursor-pointer select-none"
+                className="absolute inset-0 bg-white border border-green-200 rounded-full flex items-center justify-center gap-1.5 text-xs font-bold text-[#2E7D32] shadow-xs cursor-pointer select-none"
               >
-                <CheckCheck className="w-4 h-4 text-emerald-500" /> Removed / Added to Basket!
+                <CheckCheck className="w-4 h-4 text-emerald-500" /> Added to Basket!
               </motion.div>
-            )}
+            ) : showIndicator && lastAction === 'removed' ? (
+              <motion.div
+                key="removed"
+                initial={{ opacity: 0, scale: 0.9, y: 10 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 0.9, y: 10 }}
+                className="absolute inset-0 bg-white border border-red-200 rounded-full flex items-center justify-center gap-1.5 text-xs font-bold text-red-600 shadow-xs cursor-pointer select-none"
+              >
+                <Minus className="w-4 h-4 text-red-500" /> Removed from Basket!
+              </motion.div>
+            ) : null}
           </AnimatePresence>
         </div>
       </div>

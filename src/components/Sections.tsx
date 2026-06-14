@@ -1,5 +1,7 @@
+import React from 'react';
 import { Leaf, Clock, ShoppingBag, Landmark, MapPin, Phone, Mail, ChevronRight, Check } from 'lucide-react';
 import { HEALTH_BENEFITS } from '../data';
+import logoImg from '../assets/images/regenerated_image_1781430026139.jpg';
 
 interface SectionsProps {
   onBrowseClick: () => void;
@@ -7,6 +9,8 @@ interface SectionsProps {
 }
 
 export default function Sections({ onBrowseClick, onContactPhoneClick }: SectionsProps) {
+  const [logoError, setLogoError] = React.useState(false);
+
   return (
     <>
       {/* 1. WHY CHOOSE US SECTION */}
@@ -241,12 +245,17 @@ export default function Sections({ onBrowseClick, onContactPhoneClick }: Section
           <div className="flex flex-col gap-4">
             <div className="flex items-center gap-2">
               <div className="w-9 h-9 rounded-full bg-white flex items-center justify-center p-0.5">
-                <img 
-                  src="/public/logo.jpeg" 
-                  alt="Footer Logo" 
-                  className="w-full h-full object-cover rounded-full" 
-                  referrerPolicy="no-referrer"
-                />
+                {!logoError ? (
+                  <img 
+                    src={logoImg} 
+                    alt="Footer Logo" 
+                    className="w-full h-full object-cover rounded-full" 
+                    onError={() => setLogoError(true)}
+                    referrerPolicy="no-referrer"
+                  />
+                ) : (
+                  <Leaf className="w-5 h-5 text-[#2E7D32]" />
+                )}
               </div>
               <span className="font-extrabold text-xl tracking-tight">Parshv Foods</span>
             </div>
@@ -257,7 +266,7 @@ export default function Sections({ onBrowseClick, onContactPhoneClick }: Section
 
           {/* Col 2 Quick Links */}
           <div className="flex flex-col gap-3">
-            <h4 className="font-extrabold text-sm tracking-wider uppercase text-yellow-400">
+            <h4 className="font-extrabold text-sm tracking-wider uppercase text-white">
               Quick Links
             </h4>
             <div className="flex flex-col gap-2.5 mt-1 text-xs font-semibold text-green-100">
@@ -278,20 +287,20 @@ export default function Sections({ onBrowseClick, onContactPhoneClick }: Section
 
           {/* Col 3 Delivery info details */}
           <div className="flex flex-col gap-3">
-            <h4 className="font-extrabold text-sm tracking-wider uppercase text-yellow-400">
+            <h4 className="font-extrabold text-sm tracking-wider uppercase text-white">
               Delivery Info
             </h4>
             <div className="flex flex-col gap-2 mt-1 text-xs text-green-100 font-medium leading-relaxed">
               <div className="flex items-center gap-2">
-                <Check className="w-4 h-4 text-yellow-400" />
+                <Check className="w-4 h-4 text-white" />
                 <span>Daily Timings: 6AM – 11AM Surat-wide</span>
               </div>
               <div className="flex items-center gap-2 w-full">
-                <Check className="w-4 h-4 text-yellow-400" />
+                <Check className="w-4 h-4 text-white" />
                 <span>Order Cut-off: 10PM previous night</span>
               </div>
               <div className="flex items-center gap-2">
-                <Check className="w-4 h-4 text-yellow-400 font-extrabold" />
+                <Check className="w-4 h-4 text-white font-extrabold" />
                 <span className="font-bold text-white">FREE Delivery on all orders!</span>
               </div>
             </div>
@@ -302,7 +311,7 @@ export default function Sections({ onBrowseClick, onContactPhoneClick }: Section
 
         <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between text-[11px] text-green-100 font-medium gap-3">
           <span>&copy; 2026 Parshv Foods. All rights reserved. Surat, Gujarat.</span>
-          <span className="text-[10px] text-yellow-400/90 font-bold tracking-widest uppercase">
+          <span className="text-[10px] text-white/90 font-bold tracking-widest uppercase">
             Vegetables by PARSHV FOOD'S
           </span>
         </div>
