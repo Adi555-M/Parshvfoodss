@@ -9,9 +9,10 @@ export const PRODUCTS: Product[] = [
     baseUnit: 'KG',
     availableUnits: ['KG', 'GRAM'],
     category: 'Seasonal',
-    badge: 'Fresh Today',
+    badge: 'Farm Fresh',
     emoji: '🍅',
     bgColor: '#FFF0F2', // Pink blush
+    benefit: 'Rich in Vitamin C & antioxidants for skin health',
   },
   {
     id: '2',
@@ -21,9 +22,10 @@ export const PRODUCTS: Product[] = [
     baseUnit: 'KG',
     availableUnits: ['KG', 'GRAM'],
     category: 'Organic',
-    badge: 'Organic',
+    badge: '100% Organic',
     emoji: '🫛',
     bgColor: '#F2FBF2', // Mint green
+    benefit: 'High in fiber to promote healthy digestion',
   },
   {
     id: '3',
@@ -33,9 +35,10 @@ export const PRODUCTS: Product[] = [
     baseUnit: 'KG',
     availableUnits: ['KG', 'GRAM'],
     category: 'Seasonal',
-    badge: 'Seasonal',
+    badge: 'Direct From Farm',
     emoji: '🥦',
     bgColor: '#FFFDE8', // Light yellow
+    benefit: 'Packed with immune-boosting nutrients & vitamins',
   },
   {
     id: '4',
@@ -45,9 +48,10 @@ export const PRODUCTS: Product[] = [
     baseUnit: 'KG',
     availableUnits: ['KG', 'GRAM'],
     category: 'Leafy',
-    badge: 'Leafy',
+    badge: 'Crispy & Fresh',
     emoji: '🥬',
     bgColor: '#F0FFF5', // Soft green
+    benefit: 'Great source of Vitamin K and supports gut health',
   },
   {
     id: '5',
@@ -57,9 +61,10 @@ export const PRODUCTS: Product[] = [
     baseUnit: 'DOZEN',
     availableUnits: ['DOZEN', 'KG'],
     category: 'Fruits',
-    badge: 'Fruits',
+    badge: 'Sweet & Premium',
     emoji: '🥭',
     bgColor: '#FFF8F0', // Peachy cream
+    benefit: 'Rich in Vitamin A, boosts energy & immunity',
   },
   {
     id: '6',
@@ -69,9 +74,10 @@ export const PRODUCTS: Product[] = [
     baseUnit: 'KG',
     availableUnits: ['KG', 'GRAM'],
     category: 'Organic',
-    badge: 'Organic',
+    badge: '100% Organic',
     emoji: '🥒',
     bgColor: '#F2FBF2', // Mint green
+    benefit: 'Helps regulate blood sugar levels & purifies blood',
   },
   {
     id: '7',
@@ -81,9 +87,10 @@ export const PRODUCTS: Product[] = [
     baseUnit: 'KG',
     availableUnits: ['KG', 'GRAM'],
     category: 'Root',
-    badge: 'Root',
+    badge: 'Freshly Harvested',
     emoji: '🥕',
     bgColor: '#FFF8F0', // Peachy cream
+    benefit: 'Excellent for vision, eye health & vibrant skin',
   },
   {
     id: '8',
@@ -93,9 +100,10 @@ export const PRODUCTS: Product[] = [
     baseUnit: 'KG',
     availableUnits: ['KG', 'GRAM'],
     category: 'Leafy',
-    badge: 'Leafy',
+    badge: 'Iron-Rich',
     emoji: '🌿',
     bgColor: '#F0FFF5', // Soft green
+    benefit: 'Super high in iron, calcium & vital nutrients',
   }
 ];
 

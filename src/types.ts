@@ -6,9 +6,10 @@ export interface Product {
   baseUnit: 'KG' | 'DOZEN';
   availableUnits: ('KG' | 'GRAM' | 'DOZEN')[];
   category: string; // 'Leafy' | 'Root' | 'Seasonal' | 'Organic' | 'Fruits'
-  badge: 'Fresh Today' | 'Organic' | 'Seasonal' | 'Leafy' | 'Root' | 'Fruits';
+  badge: string;
   emoji: string;
   bgColor: string;
+  benefit?: string;
 }
 
 export interface Profile {
