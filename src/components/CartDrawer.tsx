@@ -170,7 +170,7 @@ export default function CartDrawer({
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, scale: 0.95 }}
                     transition={{ duration: 0.2 }}
-                    className="flex items-center justify-between p-3.5 bg-gray-50 hover:bg-gray-100/55 rounded-2xl border border-gray-100 transition-colors"
+                    className="flex items-center justify-between p-3.5 bg-gray-50 hover:bg-gray-100/55 rounded-2xl border border-gray-200 transition-colors"
                   >
                     {/* Left details */}
                     <div className="flex items-center gap-3 flex-1 min-w-0 pr-2">
@@ -254,9 +254,9 @@ export default function CartDrawer({
         </div>
 
         {/* Bottom review card details */}
-        <div className="px-5 pb-6 pt-2 bg-white flex flex-col gap-4 border-t border-gray-100">
+        <div className="px-5 pb-6 pt-2 bg-white flex flex-col gap-4 border-t border-gray-200">
           {/* TOTALS BLOCK (Gray-50) */}
-          <div className="bg-gray-50 p-4.5 rounded-2xl flex flex-col gap-2 shadow-xs border border-gray-100 text-sm select-none">
+          <div className="bg-gray-50 p-4.5 rounded-2xl flex flex-col gap-2 shadow-xs border border-gray-200 text-sm select-none">
             <div className="flex justify-between items-center text-gray-500 font-semibold text-xs uppercase tracking-wider">
               <span>Items Total:</span>
               <span className="text-gray-800 font-mono">₹{itemsTotal.toFixed(2)}</span>

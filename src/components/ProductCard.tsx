@@ -146,7 +146,7 @@ export default function ProductCard({
       transition={{ duration: 0.4, delay: Math.min(index * 0.05, 0.4), ease: 'easeOut' }}
       whileHover={{ y: -4, shadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1)' }}
       style={{ backgroundColor: product.bgColor }}
-      className="p-5 rounded-3xl border border-[#C8EBC8]/30 flex flex-col justify-between shadow-sm relative transition-all duration-300"
+      className="p-5 rounded-3xl border border-gray-200/90 flex flex-col justify-between shadow-sm relative transition-all duration-300"
     >
       {/* Badge (Top-Right) */}
       <span className="absolute top-4 right-4 bg-white/90 backdrop-blur-xs text-[#2E7D32] px-3 py-1 rounded-full text-[9px] font-extrabold tracking-widest uppercase shadow-xs">

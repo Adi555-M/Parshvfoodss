@@ -13,7 +13,7 @@ export default function Hero({ onOrderNowClick }: HeroProps) {
   return (
     <section id="home" className="px-4 py-6 sm:py-8 max-w-7xl mx-auto">
       {/* Container with light green background and large borders */}
-      <div className="w-full bg-[#EAF6EA] rounded-[2rem] px-6 py-10 sm:py-14 flex flex-col items-center text-center shadow-sm relative overflow-hidden">
+      <div className="w-full bg-[#EAF6EA] border border-green-200 rounded-[2rem] px-6 py-10 sm:py-14 flex flex-col items-center text-center shadow-sm relative overflow-hidden">
         {/* Abstract organic visual accents inside container background */}
         <div className="absolute top-0 left-0 w-32 h-32 bg-green-200/20 rounded-full blur-2xl -translate-x-12 -translate-y-12 pointer-events-none" />
         <div className="absolute bottom-0 right-0 w-44 h-44 bg-[#FFA000]/10 rounded-full blur-3xl translate-x-16 translate-y-16 pointer-events-none" />

@@ -201,8 +201,9 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-[#F7F7F7] flex flex-col justify-between selection:bg-[#2E7D32]/20 selection:text-[#2E7D32]">
-      <div>
+    <div className="min-h-screen bg-gray-100 flex justify-center items-start p-3 sm:p-6 md:p-8 selection:bg-[#2E7D32]/20 selection:text-[#2E7D32] w-full">
+      <div className="w-full max-w-xl bg-[#F7F7F7] rounded-[2.5rem] border border-gray-200/95 shadow-2xl overflow-hidden flex flex-col justify-between min-h-[94vh] relative">
+        <div className="w-full">
         {/* Navbar */}
         <Navbar
           cartCount={cartItemSummary.distinctTypes}
@@ -344,6 +345,7 @@ export default function App() {
           />
         )}
       </AnimatePresence>
+      </div>
     </div>
   );
 }

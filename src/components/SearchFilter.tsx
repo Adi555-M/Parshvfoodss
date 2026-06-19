@@ -66,7 +66,7 @@ export default function SearchFilter({
       </div>
 
       {/* [E] Clock Banner Header info card */}
-      <div className="w-full bg-[#EAF6EA] border border-[#C8EBC8]/50 rounded-2xl p-3.5 flex items-start gap-3 shadow-sm select-none">
+      <div className="w-full bg-[#EAF6EA] border border-green-200 rounded-2xl p-3.5 flex items-start gap-3 shadow-sm select-none">
         <Clock className="w-5 h-5 text-[#2E7D32] flex-shrink-0 mt-0.5" />
         <div>
           <h2 className="text-sm font-semibold text-gray-800 leading-tight">
