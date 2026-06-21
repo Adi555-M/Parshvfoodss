@@ -11,7 +11,7 @@ export default function Hero({ onOrderNowClick }: HeroProps) {
   const [logoError, setLogoError] = React.useState(false);
 
   return (
-    <section id="home" className="px-4 py-4 max-w-lg mx-auto">
+    <section id="home" className="px-4 py-4 max-w-lg md:max-w-3xl lg:max-w-5xl xl:max-w-7xl mx-auto">
       {/* Container with light green background and completely square borders */}
       <div className="w-full bg-[#EAF6EA] border-2 border-green-200 px-6 py-10 flex flex-col items-center text-center shadow-xs relative overflow-hidden rounded-none">
         
@@ -47,7 +47,7 @@ export default function Hero({ onOrderNowClick }: HeroProps) {
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4, delay: 0.1 }}
-          className="text-2xl sm:text-4xl font-black max-w-sm leading-tight tracking-tight text-gray-800 uppercase"
+          className="text-2xl sm:text-4xl font-black max-w-xl md:max-w-2xl leading-tight tracking-tight text-gray-800 uppercase"
         >
           Farm-Fresh <br />
           <span className="text-[#2E7D32]">Vegetables Daily</span>
@@ -58,7 +58,7 @@ export default function Hero({ onOrderNowClick }: HeroProps) {
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4, delay: 0.2 }}
-          className="text-gray-600 font-bold text-xs mt-3.5 max-w-xs leading-relaxed uppercase tracking-wider"
+          className="text-gray-600 font-bold text-xs mt-3.5 max-w-md md:max-w-xl leading-relaxed uppercase tracking-wider"
         >
           Delivered raw, clean, and delicious directly to Surat doorsteps.
         </motion.p>

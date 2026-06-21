@@ -22,11 +22,11 @@ export default function Sections({
     <>
       {/* 1. WHY CHOOSE US SECTION (rendered on Home page only) */}
       {activeTab === 'home' && (
-        <section className="px-4 py-8 max-w-lg mx-auto text-center bg-white border-2 border-gray-300 my-6 select-none rounded-none">
+        <section className="px-4 py-8 max-w-lg md:max-w-3xl lg:max-w-5xl xl:max-w-7xl mx-auto text-center bg-white border-2 border-gray-300 my-6 select-none rounded-none">
           <h2 className="text-xl font-black text-gray-800 leading-snug uppercase tracking-wide">
             Why Choose Parshv Foods
           </h2>
-          <div className="flex flex-col gap-4 mt-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-6">
             {/* Card 1 */}
             <div className="flex items-start gap-3.5 p-4 bg-gray-50 border border-gray-350 rounded-none text-left">
               <div className="w-10 h-10 rounded-none bg-[#EAF6EA] border border-[#2E7D32]/20 flex items-center justify-center shrink-0">
@@ -84,16 +84,16 @@ export default function Sections({
 
       {/* 2. HEALTH BENEFITS SECTION -> Why Eat Fresh? (rendered on Home page only) */}
       {activeTab === 'home' && (
-        <section className="px-4 py-8 max-w-lg mx-auto text-center bg-white border-2 border-gray-300 my-6 select-none rounded-none">
+        <section className="px-4 py-8 max-w-lg md:max-w-3xl lg:max-w-5xl xl:max-w-7xl mx-auto text-center bg-white border-2 border-gray-300 my-6 select-none rounded-none">
           <h2 className="text-xl font-black text-gray-800 leading-tight uppercase tracking-wide">
             Why Eat Fresh?
           </h2>
-          <p className="text-xs text-gray-400 mt-2 max-w-sm mx-auto leading-relaxed font-semibold">
+          <p className="text-xs text-gray-400 mt-2 max-w-lg mx-auto leading-relaxed font-semibold">
             Raw vegetables preserve vital enzymes and fibers. Enrich your daily traditional Gujarati dishes!
           </p>
 
           {/* Grid of benefits */}
-          <div className="grid grid-cols-2 gap-3 mt-6">
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3 mt-6">
             {HEALTH_BENEFITS.map((item) => (
               <div
                 key={item.id}
@@ -114,95 +114,97 @@ export default function Sections({
         </section>
       )}
 
-      {/* [K] GLOBAL FOOTER SECTION */}
       <footer className="w-full bg-[#2E7D32] text-white pt-10 pb-20 px-4 border-t-2 border-green-800 select-none text-left">
-        <div className="max-w-lg mx-auto flex flex-col gap-8">
+        <div className="max-w-lg md:max-w-3xl lg:max-w-5xl xl:max-w-7xl mx-auto flex flex-col gap-8">
           
-          {/* Logo & Info */}
-          <div className="flex flex-col gap-3">
-            <div className="flex items-center gap-2">
-              <div className="w-8 h-8 rounded-none bg-white flex items-center justify-center p-0.5 border border-white">
-                {!logoError ? (
-                  <img
-                    src={logoImg}
-                    alt="Footer Logo"
-                    className="w-full h-full object-cover rounded-none"
-                    onError={() => setLogoError(true)}
-                    referrerPolicy="no-referrer"
-                  />
-                ) : (
-                  <Leaf className="w-4 h-4 text-[#2E7D32]" />
-                )}
+          {/* Main Footer columns */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {/* Logo & Info */}
+            <div className="flex flex-col gap-3">
+              <div className="flex items-center gap-2">
+                <div className="w-8 h-8 rounded-none bg-white flex items-center justify-center p-0.5 border border-white">
+                  {!logoError ? (
+                    <img
+                      src={logoImg}
+                      alt="Footer Logo"
+                      className="w-full h-full object-cover rounded-none"
+                      onError={() => setLogoError(true)}
+                      referrerPolicy="no-referrer"
+                    />
+                  ) : (
+                    <Leaf className="w-4 h-4 text-[#2E7D32]" />
+                  )}
+                </div>
+                <span className="font-black text-lg tracking-tight uppercase">Parshv Foods</span>
               </div>
-              <span className="font-black text-lg tracking-tight uppercase">Parshv Foods</span>
+              <p className="text-xs text-green-150 font-semibold leading-relaxed">
+                Farm-fresh vegetables delivered directly to your doorstep in Surat every morning. Sourced at 4AM, delivered at 8AM – 11AM daily.
+              </p>
             </div>
-            <p className="text-xs text-green-150 font-semibold leading-relaxed">
-              Farm-fresh vegetables delivered directly to your doorstep in Surat every morning. Sourced at 4AM, delivered at 8AM – 11AM daily.
-            </p>
-          </div>
 
-          {/* Quick Links with setActiveTab integration */}
-          <div className="flex flex-col gap-3">
-            <h4 className="font-black text-xs tracking-wider uppercase text-white border-b border-green-800 pb-1">
-              Quick Links
-            </h4>
-            <div className="flex flex-col gap-2.5 mt-1 text-xs font-bold text-green-100">
-              <button
-                onClick={() => {
-                  setActiveTab('home');
-                  window.scrollTo({ top: 0, behavior: 'smooth' });
-                }}
-                className="text-left hover:text-white hover:underline transition-all cursor-pointer"
-              >
-                HOME
-              </button>
-              <button
-                onClick={() => {
-                  setActiveTab('about');
-                  window.scrollTo({ top: 0, behavior: 'smooth' });
-                }}
-                className="text-left hover:text-white hover:underline transition-all cursor-pointer"
-              >
-                ABOUT US
-              </button>
-              <button
-                onClick={() => {
-                  setActiveTab('contact');
-                  window.scrollTo({ top: 0, behavior: 'smooth' });
-                }}
-                className="text-left hover:text-white hover:underline transition-all cursor-pointer"
-              >
-                CONTACT
-              </button>
-              <button
-                onClick={() => {
-                  setActiveTab('orders');
-                  window.scrollTo({ top: 0, behavior: 'smooth' });
-                }}
-                className="text-left hover:text-white hover:underline transition-all cursor-pointer"
-              >
-                YOUR BASKET & ORDERS
-              </button>
+            {/* Quick Links with setActiveTab integration */}
+            <div className="flex flex-col gap-3">
+              <h4 className="font-black text-xs tracking-wider uppercase text-white border-b border-green-800 pb-1">
+                Quick Links
+              </h4>
+              <div className="flex flex-col gap-2 mt-1 text-xs font-bold text-green-100">
+                <button
+                  onClick={() => {
+                    setActiveTab('home');
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                  }}
+                  className="text-left hover:text-white hover:underline transition-all cursor-pointer"
+                >
+                  HOME
+                </button>
+                <button
+                  onClick={() => {
+                    setActiveTab('about');
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                  }}
+                  className="text-left hover:text-white hover:underline transition-all cursor-pointer"
+                >
+                  ABOUT US
+                </button>
+                <button
+                  onClick={() => {
+                    setActiveTab('contact');
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                  }}
+                  className="text-left hover:text-white hover:underline transition-all cursor-pointer"
+                >
+                  CONTACT
+                </button>
+                <button
+                  onClick={() => {
+                    setActiveTab('orders');
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                  }}
+                  className="text-left hover:text-white hover:underline transition-all cursor-pointer"
+                >
+                  YOUR BASKET & ORDERS
+                </button>
+              </div>
             </div>
-          </div>
 
-          {/* Delivery timings & terms */}
-          <div className="flex flex-col gap-3">
-            <h4 className="font-black text-xs tracking-wider uppercase text-white border-b border-green-800 pb-1">
-              Delivery Info
-            </h4>
-            <div className="flex flex-col gap-2 mt-1 text-xs text-green-100 font-semibold leading-relaxed">
-              <div className="flex items-center gap-2">
-                <Check className="w-3.5 h-3.5 text-white" />
-                <span>Daily timings: 8AM – 11AM Surat-wide</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <Check className="w-3.5 h-3.5 text-white" />
-                <span>Order Cut-off: 10PM previous night</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <Check className="w-3.5 h-3.5 text-white" />
-                <span className="font-black text-white uppercase tracking-wide">FREE Delivery on all orders!</span>
+            {/* Delivery timings & terms */}
+            <div className="flex flex-col gap-3">
+              <h4 className="font-black text-xs tracking-wider uppercase text-white border-b border-green-800 pb-1">
+                Delivery Info
+              </h4>
+              <div className="flex flex-col gap-2 mt-1 text-xs text-green-100 font-semibold leading-relaxed">
+                <div className="flex items-center gap-2">
+                  <Check className="w-3.5 h-3.5 text-white" />
+                  <span>Daily timings: 8AM – 11AM Surat-wide</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Check className="w-3.5 h-3.5 text-white" />
+                  <span>Order Cut-off: 10PM previous night</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Check className="w-3.5 h-3.5 text-white" />
+                  <span className="font-black text-white uppercase tracking-wide">FREE Delivery on all orders!</span>
+                </div>
               </div>
             </div>
           </div>

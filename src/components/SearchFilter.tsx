@@ -11,7 +11,7 @@ export default function SearchFilter({
   setSearchQuery,
 }: SearchFilterProps) {
   return (
-    <section className="px-4 py-4 max-w-lg mx-auto flex flex-col gap-4.5 select-none">
+    <section className="px-4 py-4 max-w-lg md:max-w-3xl lg:max-w-5xl xl:max-w-7xl mx-auto flex flex-col gap-4.5 select-none">
       {/* Search Input Box (Square edges) */}
       <div className="relative w-full">
         <label htmlFor="veg-search-input" className="sr-only">Search vegetable name</label>

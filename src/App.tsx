@@ -188,7 +188,7 @@ export default function App() {
   return (
     <div className="min-h-screen bg-gray-100 flex justify-center items-start p-0 selection:bg-[#2E7D32]/20 selection:text-[#2E7D32] w-full">
       {/* Shell Container - COMPLETELY SQUARE (no rounded-t or rounded rounded-[2.5rem]) */}
-      <div className="w-full max-w-lg bg-[#FAF9F6] border-2 border-gray-300 shadow-2xl overflow-hidden flex flex-col justify-between min-h-[100vh] relative rounded-none">
+      <div className="w-full max-w-lg md:max-w-3xl lg:max-w-5xl xl:max-w-7xl bg-[#FAF9F6] border-2 border-gray-300 shadow-2xl overflow-hidden flex flex-col justify-between min-h-[100vh] relative rounded-none">
         <div className="w-full">
           {/* Navbar wrapper (visible on all views to permit tab shifts) */}
           <Navbar
@@ -232,9 +232,9 @@ export default function App() {
                     Handpicked and delivered raw, clean and delicious 🥦
                   </p>
 
-                  <div className="grid grid-cols-2 gap-4 mt-6">
+                  <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 mt-6">
                     {filteredProducts.length === 0 ? (
-                      <div className="col-span-2 py-12 text-center text-gray-400 flex flex-col items-center justify-center gap-2 border-2 border-dashed border-gray-300 bg-white rounded-none">
+                      <div className="col-span-full py-12 text-center text-gray-400 flex flex-col items-center justify-center gap-2 border-2 border-dashed border-gray-300 bg-white rounded-none">
                         <span className="text-3xl">🥬</span>
                         <h3 className="font-black text-xs uppercase tracking-wider text-gray-650">No vegetables found!</h3>
                         <p className="text-[10px] font-bold text-gray-500 max-w-[200px] mt-1 text-center">

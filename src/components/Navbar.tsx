@@ -31,7 +31,7 @@ export default function Navbar({
       <header className="w-full bg-[#2E7D32] text-white px-4 py-4 flex flex-col items-center gap-4.5 border-b border-green-800">
         
         {/* Brand Title Row with Cart & Profile controls */}
-        <div className="w-full flex items-center justify-between max-w-lg">
+        <div className="w-full flex items-center justify-between max-w-7xl mx-auto md:px-4">
           <div className="flex items-center gap-1.5 cursor-pointer" onClick={() => setActiveTab('home')}>
             <span className="text-xl">🌿</span>
             <span className="font-extrabold text-white text-xl sm:text-2xl tracking-tight uppercase">
@@ -68,7 +68,7 @@ export default function Navbar({
         </div>
 
         {/* 3. HORIZONTAL PILLS TAB RIBBON (Square Borders) */}
-        <div className="w-full flex items-center justify-center max-w-lg mt-0.5">
+        <div className="w-full flex items-center justify-center max-w-7xl mx-auto md:px-4 mt-0.5">
           <div className="grid grid-cols-4 gap-2 w-full">
             {/* Home Pill */}
             <button

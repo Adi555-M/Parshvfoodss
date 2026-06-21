@@ -31,7 +31,7 @@ export default function ContactView() {
   };
 
   return (
-    <div className="w-full max-w-lg mx-auto px-4 py-6 select-none">
+    <div className="w-full max-w-lg md:max-w-3xl lg:max-w-5xl xl:max-w-7xl mx-auto px-4 py-6 select-none">
       {/* Outer wrapper: Strictly Square borders, high-contrast container */}
       <div className="bg-white border-2 border-gray-300 p-6 md:p-8 flex flex-col gap-6 text-left shadow-sm">
         

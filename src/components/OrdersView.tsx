@@ -53,7 +53,7 @@ export default function OrdersView({
     .filter((it) => it.product !== undefined);
 
   return (
-    <div className="w-full max-w-lg mx-auto px-4 py-6 select-none text-left">
+    <div className="w-full max-w-lg md:max-w-3xl lg:max-w-5xl xl:max-w-7xl mx-auto px-4 py-6 select-none text-left">
       <div className="bg-white border-2 border-gray-300 p-6 md:p-8 flex flex-col gap-6 shadow-sm">
         
         {/* Header Tab with thick Orange underline */}

@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { Plus, Minus, ChevronDown, CheckCheck } from 'lucide-react';
+import { Plus, Minus, CheckCheck } from 'lucide-react';
 import { Product } from '../types';
 
 interface ProductCardProps {
@@ -20,9 +20,6 @@ export default function ProductCard({
   onQuantityChange,
   onUnitChange,
 }: ProductCardProps) {
-  const [isDropdownOpen, setIsDropdownOpen] = React.useState(false);
-  const dropdownRef = React.useRef<HTMLDivElement>(null);
-
   const [lastAction, setLastAction] = React.useState<'added' | 'removed' | null>(null);
   const [showIndicator, setShowIndicator] = React.useState(false);
   const prevQuantityRef = React.useRef(quantity);
@@ -41,7 +38,7 @@ export default function ProductCard({
         } else {
           setLastAction('added');
         }
-      }, 2000);
+      }, 2050);
       return () => clearTimeout(timer);
     } else if (quantity > 0) {
       setLastAction('added');
@@ -51,19 +48,6 @@ export default function ProductCard({
     }
     prevQuantityRef.current = quantity;
   }, [quantity]);
-
-  // Close dropdown on outside click
-  React.useEffect(() => {
-    function handleClickOutside(event: MouseEvent) {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
-        setIsDropdownOpen(false);
-      }
-    }
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, []);
 
   // Calculate live cost
   const liveCost = React.useMemo(() => {
@@ -115,13 +99,13 @@ export default function ProductCard({
 
   // Unit changes helper
   const handleUnitSelect = (newUnit: 'KG' | 'GRAM' | 'DOZEN') => {
+    if (unit === newUnit) return;
     onUnitChange(newUnit);
-    setIsDropdownOpen(false);
     if (newUnit === 'GRAM') {
       onQuantityChange(quantity === 1 ? 1000 : 250);
     } else {
       if (unit === 'GRAM') {
-        onQuantityChange(1);
+        onQuantityChange(Math.max(1, Math.round(quantity / 1000)));
       }
     }
   };
@@ -167,8 +151,8 @@ export default function ProductCard({
       </div>
 
       {/* Controls box (strictly square borders) */}
-      <div className="mt-4 w-full flex flex-col gap-2.5">
-        <div className="w-full bg-white rounded-none px-2 py-1.5 border-2 border-gray-400 flex items-center justify-between shadow-xs">
+      <div className="mt-4 w-full flex flex-col gap-2">
+        <div className="w-full bg-white rounded-none px-1.5 py-1.5 border-2 border-gray-400 flex items-center justify-between shadow-xs">
           {/* Minus control */}
           <button
             onClick={handleDecrement}
@@ -184,7 +168,7 @@ export default function ProductCard({
           </button>
 
           {/* Core quantity input */}
-          <div className="flex-1 px-1 text-center min-w-[50px]">
+          <div className="flex-1 px-1 text-center min-w-[40px]">
             <input
               type="text"
               pattern="[0-9]*"
@@ -203,70 +187,65 @@ export default function ProductCard({
           >
             <Plus className="w-3.5 h-3.5" />
           </button>
-
-          <span className="h-5 w-px bg-gray-200 mx-1.5" />
-
-          {/* Unit Selector Trigger Dropdown */}
-          <div ref={dropdownRef} className="relative">
-            <button
-              onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-              className="flex items-center gap-0.5 font-black text-[#2E7D32] text-[11px] uppercase px-1 py-1 rounded-none hover:bg-green-50 transition-colors border border-green-700/20"
-            >
-              {unit} <ChevronDown className="w-3 h-3 text-green-700 font-bold" />
-            </button>
-
-            {/* Float menu for unit select */}
-            {isDropdownOpen && (
-              <div className="absolute right-0 bottom-full mb-1 w-28 bg-white border-2 border-gray-300 rounded-none shadow-lg z-20 py-1 overflow-hidden animate-in fade-in slide-in-from-bottom-2 duration-150">
-                {product.availableUnits.map((u) => (
-                  <button
-                    key={u}
-                    onClick={() => handleUnitSelect(u as 'KG' | 'GRAM' | 'DOZEN')}
-                    className={`w-full text-left px-3 py-2 text-xs font-bold capitalize transition-colors rounded-none ${
-                      unit === u
-                        ? 'bg-[#EAF6EA] text-[#2E7D32]'
-                        : 'text-gray-600 hover:bg-gray-50'
-                    }`}
-                  >
-                    {u}
-                  </button>
-                ))}
-              </div>
-            )}
-          </div>
         </div>
 
-        {/* Live dynamic cost block */}
-        <div className="flex items-center justify-between text-xs px-1 select-none font-bold">
-          <span className="text-gray-400 font-black tracking-wider uppercase text-[9px]">LIVE COST</span>
-          <span className="text-sm text-[#2E7D32] font-black">
-            ₹{liveCost.toFixed(2)}
-          </span>
+        {/* Row 2: Unit Segment Selector Tabs (Square & High contrast) */}
+        <div className="w-full grid grid-cols-2 border-2 border-gray-400 bg-white shadow-xs divide-x-2 divide-gray-300 overflow-hidden rounded-none select-none">
+          <button
+            type="button"
+            onClick={() => handleUnitSelect(product.availableUnits[0] as 'KG' | 'GRAM' | 'DOZEN')}
+            className={`py-1.5 text-center text-[10px] font-black uppercase tracking-wider transition-all cursor-pointer ${
+              unit === product.availableUnits[0]
+                ? 'bg-[#2E7D32] text-white'
+                : 'bg-white text-gray-500 hover:text-gray-800 hover:bg-gray-55'
+            }`}
+          >
+            {product.availableUnits[0]}
+          </button>
+          <button
+            type="button"
+            onClick={() => handleUnitSelect(product.availableUnits[1] as 'KG' | 'GRAM' | 'DOZEN')}
+            className={`py-1.5 text-center text-[10px] font-black uppercase tracking-wider transition-all cursor-pointer ${
+              unit === product.availableUnits[1]
+                ? 'bg-[#2E7D32] text-white'
+                : 'bg-white text-gray-500 hover:text-gray-800 hover:bg-gray-55'
+            }`}
+          >
+            {product.availableUnits[1]}
+          </button>
         </div>
-
-        {/* Expands smoothly ONLY when active to maintain layout consistency */}
-        <AnimatePresence initial={false}>
-          {showIndicator && (
-            <motion.div
-              initial={{ height: 0, opacity: 0, marginTop: 0 }}
-              animate={{ height: 32, opacity: 1, marginTop: 10 }}
-              exit={{ height: 0, opacity: 0, marginTop: 0 }}
-              transition={{ duration: 0.25 }}
-              className="relative overflow-hidden w-full h-8"
-            >
-              {lastAction === 'added' ? (
-                <div className="absolute inset-0 bg-white border border-green-300 rounded-none flex items-center justify-center gap-1.5 text-xs font-black text-[#2E7D32] shadow-xs select-none uppercase tracking-wide">
-                  <CheckCheck className="w-3.5 h-3.5 text-emerald-500" /> Added!
-                </div>
-              ) : lastAction === 'removed' ? (
-                <div className="absolute inset-0 bg-white border border-red-300 rounded-none flex items-center justify-center gap-1.5 text-xs font-black text-red-600 shadow-xs select-none uppercase tracking-wide">
-                  <Minus className="w-3.5 h-3.5 text-red-400" /> Removed!
-                </div>
-              ) : null}
-            </motion.div>
-          )}
-        </AnimatePresence>
       </div>
+
+      {/* Live dynamic cost block */}
+      <div className="mt-2 flex items-center justify-between text-xs px-1 select-none font-bold">
+        <span className="text-gray-400 font-black tracking-wider uppercase text-[9px]">LIVE COST</span>
+        <span className="text-sm text-[#2E7D32] font-black">
+          ₹{liveCost.toFixed(2)}
+        </span>
+      </div>
+
+      {/* Expands smoothly ONLY when active to maintain layout consistency */}
+      <AnimatePresence initial={false}>
+        {showIndicator && (
+          <motion.div
+            initial={{ height: 0, opacity: 0, marginTop: 0 }}
+            animate={{ height: 32, opacity: 1, marginTop: 10 }}
+            exit={{ height: 0, opacity: 0, marginTop: 0 }}
+            transition={{ duration: 0.25 }}
+            className="relative overflow-hidden w-full h-8"
+          >
+            {lastAction === 'added' ? (
+              <div className="absolute inset-0 bg-white border border-green-300 rounded-none flex items-center justify-center gap-1.5 text-xs font-black text-[#2E7D32] shadow-xs select-none uppercase tracking-wide">
+                <CheckCheck className="w-3.5 h-3.5 text-emerald-500" /> Added!
+              </div>
+            ) : lastAction === 'removed' ? (
+              <div className="absolute inset-0 bg-white border border-red-300 rounded-none flex items-center justify-center gap-1.5 text-xs font-black text-red-600 shadow-xs select-none uppercase tracking-wide">
+                <Minus className="w-3.5 h-3.5 text-red-400" /> Removed!
+              </div>
+            ) : null}
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
