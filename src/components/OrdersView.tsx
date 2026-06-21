@@ -1,6 +1,15 @@
 import React from 'react';
-import { ShoppingBag, User, CheckCircle2, ArrowRight, Edit, PhoneCall } from 'lucide-react';
-import { Product, Profile } from '../types';
+import {
+  ShoppingBag,
+  User,
+  ArrowRight,
+  Edit,
+  Calendar,
+  Trash2,
+  RefreshCw,
+  FileText
+} from 'lucide-react';
+import { Product, Profile, HistoricalOrder } from '../types';
 
 interface OrdersViewProps {
   cart: { [productId: string]: number };
@@ -11,6 +20,9 @@ interface OrdersViewProps {
   onBrowseHome: () => void;
   onCheckout: () => void;
   cartTotal: number;
+  orderHistory: HistoricalOrder[];
+  onClearHistory: () => void;
+  onReorder: (order: HistoricalOrder) => void;
 }
 
 export default function OrdersView({
@@ -22,17 +34,20 @@ export default function OrdersView({
   onBrowseHome,
   onCheckout,
   cartTotal,
+  orderHistory = [],
+  onClearHistory,
+  onReorder,
 }: OrdersViewProps) {
+  const [showConfirmClear, setShowConfirmClear] = React.useState(false);
   const hasProfile = profile.name.trim() !== '' && profile.phone.trim() !== '';
-  
-  // Calculate cart items
+
+  // Calculate active cart items
   const activeItems = Object.entries(cart)
     .filter(([_, qty]) => qty > 0)
     .map(([id, qty]) => {
       const prod = products.find((p) => p.id === id);
       const unit = selectedUnits[id] || (prod?.baseUnit as 'KG' | 'GRAM' | 'DOZEN');
-      
-      let itemPrice = prod ? prod.price : 0;
+
       let computedCost = 0;
       if (prod) {
         if (unit === 'GRAM') {
@@ -59,62 +74,11 @@ export default function OrdersView({
         {/* Header Tab with thick Orange underline */}
         <div className="border-b-4 border-orange-500 pb-2">
           <h2 className="text-2xl font-black text-[#2E7D32] uppercase tracking-wide">
-            Your Orders & Profile
+            Your Orders
           </h2>
           <p className="text-xs font-bold text-gray-500 mt-1 uppercase tracking-wider">
             Monitor and place your next-morning kitchen delivery orders
           </p>
-        </div>
-
-        {/* 1. Profile Status Info Card */}
-        <div className="bg-[#EAF6EA] border-2 border-green-300 p-4.5 flex flex-col gap-3 rounded-none">
-          <div className="flex items-center justify-between border-b border-green-200 pb-2">
-            <div className="flex items-center gap-2">
-              <User className="w-5 h-5 text-[#2E7D32]" />
-              <h3 className="font-black text-xs sm:text-sm text-gray-800 uppercase tracking-wider">
-                Saved Delivery Profile
-              </h3>
-            </div>
-            <button
-              onClick={onEditProfile}
-              className="text-[10px] font-black text-[#2E7D32] uppercase hover:underline flex items-center gap-1 cursor-pointer"
-            >
-              <Edit className="w-3.5 h-3.5" /> Edit Profile
-            </button>
-          </div>
-
-          {hasProfile ? (
-            <div className="flex flex-col gap-1 text-xs">
-              <p className="text-gray-800 font-extrabold text-sm uppercase">👤 {profile.name}</p>
-              <p className="text-gray-600 font-bold">📞 {profile.phone}</p>
-              <p className="text-gray-600 font-bold mt-1">📍 {profile.address || 'Surat, Gujarat, India'}</p>
-            </div>
-          ) : (
-            <div className="flex flex-col gap-2 py-1 text-center">
-              <p className="text-xs font-bold text-gray-600 italic">No delivery profile saved yet!</p>
-              <button
-                onClick={onEditProfile}
-                className="px-4 py-2 bg-[#2E7D32] text-white text-[11px] font-black uppercase tracking-wider border-2 border-green-700 select-none cursor-pointer hover:bg-emerald-700 rounded-none w-full"
-              >
-                Set Up Delivery Address now
-              </button>
-            </div>
-          )}
-        </div>
-
-        {/* 2. Order History / Pending Next-day Orders Block */}
-        <div className="flex flex-col gap-3 border-t border-gray-200 pt-4">
-          <h3 className="text-sm font-black text-gray-800 uppercase tracking-widest flex items-center gap-2">
-            <CheckCircle2 className="w-4 h-4 text-orange-500" /> Back-End Delivery Status
-          </h3>
-          <div className="border-l-4 border-orange-500 bg-orange-50/70 p-3.5">
-            <p className="text-xs font-black text-orange-700 uppercase tracking-wide">
-              🔒 Pending Next Morning Confirmation
-            </p>
-            <p className="text-[11px] font-semibold text-gray-650 mt-1 lines-relaxed">
-              Once you confirm your basket via WhatsApp, our early morning farm coordinators at 4:30 AM will pack your vegetables. Delivery is scheduled between 8:00 AM and 11:00 AM.
-            </p>
-          </div>
         </div>
 
         {/* 3. Items currently prepared in your basket */}
@@ -160,7 +124,7 @@ export default function OrdersView({
               </button>
             </div>
           ) : (
-            <div className="flex flex-col items-center justify-center py-8 text-center bg-gray-50 border border-gray-200 gap-3">
+            <div className="flex flex-col items-center justify-center py-6 text-center bg-gray-55 border border-gray-200 gap-2.5">
               <div className="w-10 h-10 bg-white border border-gray-300 flex items-center justify-center text-xl">
                 🥬
               </div>
@@ -171,8 +135,114 @@ export default function OrdersView({
                 onClick={onBrowseHome}
                 className="px-5 py-2.5 bg-[#2E7D32] text-white border-2 border-green-800 text-xs font-black uppercase tracking-widest hover:bg-emerald-700 active:scale-95 transition-all cursor-pointer rounded-none"
               >
-                Start Shop Selection
+                Browse Vegetables
               </button>
+            </div>
+          )}
+        </div>
+
+        {/* 4. REAL ORDER HISTORY TIMELINE SECTION */}
+        <div className="flex flex-col gap-3.5 border-t border-gray-200 pt-6">
+          <div className="flex items-center justify-between border-b border-gray-100 pb-2">
+            <h3 className="text-sm font-black text-[#2E7D32] uppercase tracking-wider flex items-center gap-2">
+              <FileText className="w-4.5 h-4.5 text-[#2E7D32]" />
+              <span>📜 Completed WhatsApp Orders History</span>
+            </h3>
+            {orderHistory.length > 0 && (
+              <div className="flex items-center gap-2">
+                {showConfirmClear ? (
+                  <>
+                    <button
+                      onClick={() => {
+                        onClearHistory();
+                        setShowConfirmClear(false);
+                      }}
+                      className="text-[10px] text-red-650 font-black uppercase hover:underline bg-red-50 px-2 py-1 border border-red-300 cursor-pointer"
+                    >
+                      Yes, Clear All
+                    </button>
+                    <button
+                      onClick={() => setShowConfirmClear(false)}
+                      className="text-[10px] text-gray-500 font-extrabold uppercase hover:underline px-2 py-1 cursor-pointer bg-transparent border-none"
+                    >
+                      Cancel
+                    </button>
+                  </>
+                ) : (
+                  <button
+                    onClick={() => setShowConfirmClear(true)}
+                    className="text-[10px] text-red-500 font-extrabold uppercase hover:underline flex items-center gap-1 cursor-pointer bg-transparent border-0"
+                  >
+                    <Trash2 className="w-3.5 h-3.5" /> Clear History
+                  </button>
+                )}
+              </div>
+            )}
+          </div>
+
+          {orderHistory.length > 0 ? (
+            <div className="flex flex-col gap-4">
+              {orderHistory.map((order) => (
+                <div
+                  key={order.id}
+                  className="bg-gray-50 border-2 border-gray-200 p-4 relative flex flex-col gap-3"
+                >
+                  <div className="flex flex-wrap items-center justify-between gap-2 border-b border-gray-200 pb-2">
+                    <div className="flex flex-col">
+                      <span className="text-xs font-black text-gray-800 uppercase tracking-wider">
+                        Order ID: {order.id}
+                      </span>
+                      <span className="text-[10px] text-gray-400 font-bold flex items-center gap-1 mt-0.5">
+                        <Calendar className="w-3 h-3 text-gray-400" />
+                        {order.date}
+                      </span>
+                    </div>
+                    {/* Next Day Status Badge */}
+                    <span className="bg-[#2E7D32]/10 text-[#2E7D32] text-[10px] font-black uppercase px-2 py-1 border border-[#2E7D32]/20">
+                      🚚 Scheduled Next Morning (8-11 AM)
+                    </span>
+                  </div>
+
+                  {/* Order items miniature listing */}
+                  <div className="flex flex-col gap-1.5 py-1">
+                    {order.items.map((item, index) => (
+                      <div key={index} className="flex items-center justify-between text-xs font-bold text-gray-700">
+                        <div className="flex items-center gap-1.5">
+                          <span className="text-sm">{item.emoji}</span>
+                          <span>
+                            {item.gujaratiName} <span className="text-[10px] font-normal text-gray-400">({item.englishName})</span>
+                          </span>
+                        </div>
+                        <span className="text-gray-900 font-extrabold uppercase">
+                          {item.quantity} {item.unit}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+
+                  {/* Total and Re-Order action panel */}
+                  <div className="flex items-center justify-between border-t border-gray-200 pt-2.5 mt-1">
+                    <div className="text-xs">
+                      <span className="text-gray-400 uppercase font-black mr-1">Paid:</span>
+                      <span className="text-sm font-black text-[#2E7D32]">₹{order.totalCost.toFixed(2)}</span>
+                    </div>
+
+                    <button
+                      onClick={() => onReorder(order)}
+                      className="px-3.5 py-1.5 bg-[#2E7D32] hover:bg-emerald-700 text-white font-black text-[10px] uppercase tracking-wide border border-green-800 cursor-pointer rounded-none flex items-center gap-1 transition-all"
+                    >
+                      <RefreshCw className="w-3 h-3 text-white animate-spin-hover" />
+                      <span>Re-order Cart</span>
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <div className="flex flex-col items-center justify-center py-7 text-center bg-gray-50 border border-gray-250 p-6">
+              <p className="text-xs font-bold text-gray-450 leading-relaxed max-w-sm">
+                No local order checkout logs yet! Once you checkout a prepared basket via WhatsApp, your order logs will be cataloged here securely for immediate next-day reference and 1-click reordering.
+              </p>
             </div>
           )}
         </div>

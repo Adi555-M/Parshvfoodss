@@ -16,7 +16,7 @@ import ContactView from './components/ContactView';
 import OrdersView from './components/OrdersView';
 
 import { PRODUCTS } from './data';
-import { Profile } from './types';
+import { Profile, HistoricalOrder } from './types';
 
 export default function App() {
   // 1. Core Reactive States
@@ -41,12 +41,48 @@ export default function App() {
     return { name: '', phone: '', address: '' };
   });
 
+  // Load past order history from client-side local storage safely on load
+  const [orderHistory, setOrderHistory] = React.useState<HistoricalOrder[]>(() => {
+    try {
+      const stored = localStorage.getItem('pf_order_history');
+      if (stored) {
+        return JSON.parse(stored);
+      }
+    } catch (e) {
+      console.error('Failed to load order history', e);
+    }
+    return [];
+  });
+
   // 2. State Mutators
   const handleQuantityChange = (productId: string, val: number) => {
     setCart((prev) => ({
       ...prev,
       [productId]: val,
     }));
+  };
+
+  const handleClearHistory = () => {
+    setOrderHistory([]);
+    try {
+      localStorage.removeItem('pf_order_history');
+    } catch (e) {
+      console.error('Failed to clear order history storage', e);
+    }
+  };
+
+  const handleReorder = (order: HistoricalOrder) => {
+    const updatedCart: Record<string, number> = {};
+    const updatedUnits: Record<string, 'KG' | 'GRAM' | 'DOZEN'> = {};
+
+    order.items.forEach((it) => {
+      updatedCart[it.productId] = it.quantity;
+      updatedUnits[it.productId] = it.unit;
+    });
+
+    setCart(updatedCart);
+    setSelectedUnits(updatedUnits);
+    setIsCartOpen(true);
   };
 
   const handleUnitChange = (productId: string, unit: 'KG' | 'GRAM' | 'DOZEN') => {
@@ -131,6 +167,8 @@ export default function App() {
     }
 
     const cropsLines: string[] = [];
+    const orderedHistoryItems: HistoricalOrder['items'] = [];
+
     Object.entries(cart).forEach(([id, qty]) => {
       const quantityNum = qty as number;
       if (quantityNum <= 0) return;
@@ -151,6 +189,17 @@ export default function App() {
       cropsLines.push(
         `🌿 ${product.gujaratiName} (${product.englishName}) - ${quantityNum} ${unit} - ₹${rowCost.toFixed(2)}`
       );
+
+      orderedHistoryItems.push({
+        productId: id,
+        gujaratiName: product.gujaratiName,
+        englishName: product.englishName,
+        emoji: product.emoji,
+        quantity: quantityNum,
+        unit,
+        price: product.price,
+        cost: rowCost,
+      });
     });
 
     if (cropsLines.length === 0) {
@@ -158,7 +207,30 @@ export default function App() {
       return;
     }
 
-    // Format final precompiled text message
+    // 1. Persist in Order History
+    const newOrder: HistoricalOrder = {
+      id: 'PF-' + Math.floor(100000 + Math.random() * 900000),
+      date: new Date().toLocaleString('en-IN', {
+        day: '2-digit',
+        month: 'short',
+        year: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit',
+        hour12: true,
+      }),
+      items: orderedHistoryItems,
+      totalCost: cartItemSummary.grandRupeeTotal,
+    };
+
+    const newHistory = [newOrder, ...orderHistory];
+    setOrderHistory(newHistory);
+    try {
+      localStorage.setItem('pf_order_history', JSON.stringify(newHistory));
+    } catch (e) {
+      console.error('Failed to write progress to local order history log', e);
+    }
+
+    // 2. Format final precompiled text message
     const lines = [
       'Hello Parshv Foods! 🌿',
       '',
@@ -180,6 +252,11 @@ export default function App() {
     const encodedMessage = encodeURIComponent(lines.join('\n'));
     // Secure direct link to Surat official business whatsapp line
     const whatsAppUrl = `https://wa.me/916355532061?text=${encodedMessage}`;
+
+    // 3. Clear active cart to prevent duplicate submit and move to Orders tab to track
+    setCart({});
+    setIsCartOpen(false);
+    setActiveTab('orders');
 
     // Open link in a secure tab
     window.open(whatsAppUrl, '_blank', 'noopener,noreferrer');
@@ -300,6 +377,9 @@ export default function App() {
                   onBrowseHome={() => setActiveTab('home')}
                   onCheckout={handleCheckout}
                   cartTotal={cartItemSummary.grandRupeeTotal}
+                  orderHistory={orderHistory}
+                  onClearHistory={handleClearHistory}
+                  onReorder={handleReorder}
                 />
               </motion.div>
             )}

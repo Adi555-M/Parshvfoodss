@@ -23,3 +23,20 @@ export interface CartItem {
   quantity: number;
   unit: 'KG' | 'GRAM' | 'DOZEN';
 }
+
+export interface HistoricalOrder {
+  id: string;
+  date: string;
+  items: {
+    productId: string;
+    gujaratiName: string;
+    englishName: string;
+    emoji: string;
+    quantity: number;
+    unit: 'KG' | 'GRAM' | 'DOZEN';
+    price: number;
+    cost: number;
+  }[];
+  totalCost: number;
+}
+

@@ -73,52 +73,52 @@ export default function Navbar({
             {/* Home Pill */}
             <button
               onClick={() => setActiveTab('home')}
-              className={`flex items-center justify-center gap-1.5 py-2 px-1 text-center font-bold text-xs border transition-all cursor-pointer rounded-none uppercase tracking-wide ${
+              className={`flex items-center justify-center gap-1.5 py-2.5 px-1 text-center font-bold text-xs border transition-all cursor-pointer rounded-none uppercase tracking-wide ${
                 activeTab === 'home'
                   ? 'bg-white text-[#2E7D32] border-white font-extrabold shadow-sm'
                   : 'bg-white/10 text-white border-white/20 hover:bg-white/15'
               }`}
             >
-              <Home className="w-3.5 h-3.5" />
+              <Home className="w-4.5 h-4.5 sm:w-5 sm:h-5 shrink-0" />
               <span>Home</span>
             </button>
 
             {/* About Pill */}
             <button
               onClick={() => setActiveTab('about')}
-              className={`flex items-center justify-center gap-1.5 py-2 px-1 text-center font-bold text-xs border transition-all cursor-pointer rounded-none uppercase tracking-wide ${
+              className={`flex items-center justify-center gap-1.5 py-2.5 px-1 text-center font-bold text-xs border transition-all cursor-pointer rounded-none uppercase tracking-wide ${
                 activeTab === 'about'
                   ? 'bg-white text-[#2E7D32] border-white font-extrabold shadow-sm'
                   : 'bg-white/10 text-white border-white/20 hover:bg-white/15'
               }`}
             >
-              <Info className="w-3.5 h-3.5" />
+              <Info className="w-4.5 h-4.5 sm:w-5 sm:h-5 shrink-0" />
               <span>About</span>
             </button>
 
             {/* Contact Pill */}
             <button
               onClick={() => setActiveTab('contact')}
-              className={`flex items-center justify-center gap-1.5 py-2 px-1 text-center font-bold text-xs border transition-all cursor-pointer rounded-none uppercase tracking-wide ${
+              className={`flex items-center justify-center gap-1.5 py-2.5 px-1 text-center font-bold text-xs border transition-all cursor-pointer rounded-none uppercase tracking-wide ${
                 activeTab === 'contact'
                   ? 'bg-white text-[#2E7D32] border-white font-extrabold shadow-sm'
                   : 'bg-white/10 text-white border-white/20 hover:bg-white/15'
               }`}
             >
-              <Mail className="w-3.5 h-3.5" />
-              <span>Contact</span>
+              <Mail className="w-4.5 h-4.5 sm:w-5 sm:h-5 shrink-0 text-red-500 animate-pulse" style={{ animationDuration: '3s' }} />
+              <span className="font-extrabold">Contact</span>
             </button>
 
             {/* Orders Pill */}
             <button
               onClick={() => setActiveTab('orders')}
-              className={`flex items-center justify-center gap-1.5 py-2 px-1 text-center font-bold text-xs border transition-all cursor-pointer rounded-none uppercase tracking-wide ${
+              className={`flex items-center justify-center gap-1.5 py-2.5 px-1 text-center font-bold text-xs border transition-all cursor-pointer rounded-none uppercase tracking-wide ${
                 activeTab === 'orders'
                   ? 'bg-white text-[#2E7D32] border-white font-extrabold shadow-sm'
                   : 'bg-white/10 text-white border-white/20 hover:bg-white/15'
               }`}
             >
-              <RotateCcw className="w-3.5 h-3.5" />
+              <RotateCcw className="w-4.5 h-4.5 sm:w-5 sm:h-5 shrink-0" />
               <span>Orders</span>
             </button>
           </div>

@@ -65,48 +65,48 @@ export default function ContactView() {
         </div>
 
         {/* 2. Descriptive Contact Information cards row */}
-        <div className="flex flex-col gap-3.5 border-t border-gray-200 pt-4">
+        <div className="flex flex-col gap-4 border-t border-gray-200 pt-5">
           {/* Address */}
-          <div className="flex items-start gap-3">
-            <div className="w-8 h-8 bg-gray-100 hover:bg-gray-200 border border-gray-300 flex items-center justify-center shrink-0 rounded-none text-gray-700">
-              <MapPin className="w-4 h-4" />
+          <div className="flex items-center gap-4.5 bg-gray-55 p-3.5 border border-gray-250">
+            <div className="w-12 h-12 bg-orange-100 border border-orange-300 text-orange-600 flex items-center justify-center shrink-0 rounded-none">
+              <MapPin className="w-6 h-6" />
             </div>
             <div>
-              <span className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Address:</span>
-              <span className="text-xs font-bold text-gray-800 block">Sanghvi Tower, Surat, Gujarat</span>
+              <span className="text-[10px] font-black text-orange-650 uppercase tracking-widest block mb-1">Primary Location</span>
+              <span className="text-sm font-black text-gray-800 block">Sanghvi Tower, Surat, Gujarat</span>
             </div>
           </div>
 
           {/* Phone */}
-          <div className="flex items-start gap-3">
-            <div className="w-8 h-8 bg-gray-100 hover:bg-gray-200 border border-gray-300 flex items-center justify-center shrink-0 rounded-none text-gray-700">
-              <Phone className="w-4 h-4" />
+          <div className="flex items-center gap-4.5 bg-gray-55 p-3.5 border border-gray-250">
+            <div className="w-12 h-12 bg-green-100 border border-green-300 text-green-700 flex items-center justify-center shrink-0 rounded-none">
+              <Phone className="w-5.5 h-5.5 animate-bounce" style={{ animationDuration: '3s' }} />
             </div>
             <div>
-              <span className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Phone:</span>
-              <span className="text-xs font-mono font-bold text-gray-800 block">+91 6355532061</span>
+              <span className="text-[10px] font-black text-green-700 uppercase tracking-widest block mb-1">Call or WhatsApp Helpline</span>
+              <span className="text-sm font-black font-mono text-gray-850 block">+91 6355532061</span>
             </div>
           </div>
 
           {/* Email */}
-          <div className="flex items-start gap-3">
-            <div className="w-8 h-8 bg-gray-100 hover:bg-gray-200 border border-gray-300 flex items-center justify-center shrink-0 rounded-none text-gray-700">
-              <Mail className="w-4 h-4" />
+          <div className="flex items-center gap-4.5 bg-gray-55 p-3.5 border border-gray-250">
+            <div className="w-12 h-12 bg-red-100 border border-red-300 text-red-650 flex items-center justify-center shrink-0 rounded-none">
+              <Mail className="w-6 h-6" />
             </div>
             <div>
-              <span className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Email:</span>
-              <span className="text-xs font-bold text-gray-800 block">parshvfoods@gmail.com</span>
+              <span className="text-[10px] font-black text-red-650 uppercase tracking-widest block mb-1">Email Support</span>
+              <span className="text-sm font-black text-gray-850 block">parshvfoods@gmail.com</span>
             </div>
           </div>
 
           {/* Hours */}
-          <div className="flex items-start gap-3">
-            <div className="w-8 h-8 bg-gray-100 hover:bg-gray-200 border border-gray-300 flex items-center justify-center shrink-0 rounded-none text-gray-700">
-              <Clock className="w-4 h-4" />
+          <div className="flex items-center gap-4.5 bg-[#EAF6EA] p-3.5 border border-green-200">
+            <div className="w-12 h-12 bg-green-200/50 border border-green-400 text-[#2E7D32] flex items-center justify-center shrink-0 rounded-none">
+              <Clock className="w-6 h-6" />
             </div>
             <div>
-              <span className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Delivery Hours:</span>
-              <span className="text-xs font-bold text-[#2E7D32] block">8AM – 11AM</span>
+              <span className="text-[10px] font-black text-[#2E7D32] uppercase tracking-widest block mb-1">Surat Morning Delivery Slot</span>
+              <span className="text-sm font-black text-[#2E7D32] block">8:00 AM – 11:00 AM Daily</span>
             </div>
           </div>
         </div>
