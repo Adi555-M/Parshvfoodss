@@ -186,9 +186,9 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 flex justify-center items-start p-0 selection:bg-[#2E7D32]/20 selection:text-[#2E7D32] w-full">
+    <div className="min-h-screen bg-[#FAF9F6] selection:bg-[#2E7D32]/20 selection:text-[#2E7D32] w-full flex flex-col justify-between p-0">
       {/* Shell Container - COMPLETELY SQUARE (no rounded-t or rounded rounded-[2.5rem]) */}
-      <div className="w-full max-w-lg md:max-w-3xl lg:max-w-5xl xl:max-w-7xl bg-[#FAF9F6] border-2 border-gray-300 shadow-2xl overflow-hidden flex flex-col justify-between min-h-[100vh] relative rounded-none">
+      <div className="w-full bg-[#FAF9F6] overflow-hidden flex flex-col justify-between min-h-screen relative rounded-none">
         <div className="w-full">
           {/* Navbar wrapper (visible on all views to permit tab shifts) */}
           <Navbar
