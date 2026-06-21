@@ -1,6 +1,5 @@
 import React from 'react';
-import { ShoppingBag, User, Menu, X, Leaf, Info, MessageSquare, ListCollapse } from 'lucide-react';
-import { motion, AnimatePresence } from 'motion/react';
+import { Home, Info, Mail, RotateCcw, ShoppingBag, User } from 'lucide-react';
 
 interface NavbarProps {
   cartCount: number;
@@ -8,7 +7,8 @@ interface NavbarProps {
   isProfileFilled: boolean;
   onCartClick: () => void;
   onProfileClick: () => void;
-  onScrollTo: (sectionId: string) => void;
+  activeTab: 'home' | 'about' | 'contact' | 'orders';
+  setActiveTab: (tab: 'home' | 'about' | 'contact' | 'orders') => void;
 }
 
 export default function Navbar({
@@ -17,148 +17,114 @@ export default function Navbar({
   isProfileFilled,
   onCartClick,
   onProfileClick,
-  onScrollTo,
+  activeTab,
+  setActiveTab,
 }: NavbarProps) {
-  const [isMenuOpen, setIsMenuOpen] = React.useState(false);
-
-  const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
-
-  const handleLinkClick = (id: string) => {
-    onScrollTo(id);
-    setIsMenuOpen(false);
-  };
-
   return (
-    <>
-      {/* Sticky Parent Container for Announcement & Navbar */}
-      <div id="pf-header" className="sticky top-0 z-50 w-full">
-        {/* [A] ANNOUNCEMENT BAR */}
-        <div className="w-full bg-[#FFA000] text-white py-1.5 px-4 text-center text-xs sm:text-xs font-semibold tracking-wide shadow-sm flex items-center justify-center gap-1.5 leading-relaxed">
-          <span>🎉</span>
-          <span>Free delivery on all orders • Order before 10PM for next morning delivery</span>
-        </div>
+    <div id="pf-header" className="sticky top-0 z-50 w-full select-none">
+      {/* 1. TOP ANNOUNCEMENT BAR */}
+      <div className="w-full bg-[#FFA500] text-black py-2.5 px-4 text-center text-xs sm:text-sm font-black tracking-wide flex items-center justify-center gap-1 leading-tight border-b border-black/10">
+        <span>Free delivery on all orders! Order before 10PM And get order next day morning (8-11 AM)</span>
+      </div>
 
-        {/* [B] STICKY NAVBAR */}
-        <header className="w-full bg-[#2E7D32] text-white px-4 py-3 shadow-md flex items-center justify-between">
-          {/* Logo & Brand Details */}
-          <div 
-            onClick={() => handleLinkClick('home')} 
-            className="flex items-center gap-2 cursor-pointer group active:scale-95 transition-transform text-white select-none"
-          >
-            <Leaf className="w-6.5 h-6.5 text-[#FFF] inline" />
-            <span className="font-extrabold text-[#FFF] text-lg sm:text-xl tracking-tight hover:text-green-100 transition-colors">
+      {/* 2. GREEN CORE HEADER */}
+      <header className="w-full bg-[#2E7D32] text-white px-4 py-4 flex flex-col items-center gap-4.5 border-b border-green-800">
+        
+        {/* Brand Title Row with Cart & Profile controls */}
+        <div className="w-full flex items-center justify-between max-w-lg">
+          <div className="flex items-center gap-1.5 cursor-pointer" onClick={() => setActiveTab('home')}>
+            <span className="text-xl">🌿</span>
+            <span className="font-extrabold text-white text-xl sm:text-2xl tracking-tight uppercase">
               Parshv Foods
             </span>
           </div>
 
-          {/* Action Row */}
           <div className="flex items-center gap-2">
-            {/* Cart Button */}
+            {/* Cart Icon */}
             <button
-              id="nav-cart-btn"
               onClick={onCartClick}
-              className="relative w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center shadow-inner transition-colors active:scale-95"
+              className="relative w-9 h-9 border border-white bg-transparent flex items-center justify-center transition-all cursor-pointer active:scale-95 rounded-none"
               aria-label="Open Cart"
             >
-              <ShoppingBag className="w-5 h-5 text-white" />
+              <ShoppingBag className="w-4 h-4 text-white" />
               {cartCount > 0 && (
-                <span className="absolute -top-1 -right-1 bg-[#FFA000] text-white text-[10px] font-extrabold px-1.5 py-0.5 rounded-full shadow-lg border border-white flex items-center justify-center min-w-5 h-5">
+                <span className="absolute -top-1.5 -right-1.5 bg-[#FFA500] text-black text-[9px] font-black px-1.5 py-0.5 border border-black min-w-4 h-4 flex items-center justify-center rounded-none shadow-sm">
                   {cartCount}
                 </span>
               )}
             </button>
 
-            {/* Profile Button */}
+            {/* Profile/User settings Icon */}
             <button
-              id="nav-profile-btn"
               onClick={onProfileClick}
-              className="relative w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center shadow-inner transition-all active:scale-95"
+              className={`w-9 h-9 border flex items-center justify-center transition-all cursor-pointer active:scale-95 rounded-none ${
+                isProfileFilled ? 'border-[#FFA500] bg-[#FFA500]/20' : 'border-white bg-transparent'
+              }`}
               aria-label="Edit Profile"
             >
-              <User className="w-5 h-5 text-white" />
+              <User className="w-4 h-4 text-white" />
             </button>
-
-            {/* Hamburger Button */}
-            <button
-              id="nav-hamburger-btn"
-              onClick={toggleMenu}
-              className="w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center transition-colors active:scale-95 md:hidden"
-              aria-label="Toggle Menu"
-            >
-              {isMenuOpen ? <X className="w-5 h-5 text-white" /> : <Menu className="w-5 h-5 text-white" />}
-            </button>
-
-            {/* Desktop Navigation Links */}
-            <nav className="hidden md:flex items-center gap-3 ml-4">
-              <button 
-                onClick={() => handleLinkClick('home')} 
-                className="text-sm font-medium hover:bg-white/10 px-3 py-1.5 rounded-full transition-colors"
-              >
-                Home
-              </button>
-              <button 
-                onClick={() => handleLinkClick('products')} 
-                className="text-sm font-medium hover:bg-white/10 px-3 py-1.5 rounded-full transition-colors"
-              >
-                Shop/Orders
-              </button>
-              <button 
-                onClick={() => handleLinkClick('about')} 
-                className="text-sm font-medium hover:bg-white/10 px-3 py-1.5 rounded-full transition-colors"
-              >
-                About Us
-              </button>
-              <button 
-                onClick={() => handleLinkClick('contact')} 
-                className="text-sm font-medium bg-[#FFA000] hover:bg-amber-600 px-4 py-1.5 rounded-full shadow-md text-white transition-colors"
-              >
-                Contact
-              </button>
-            </nav>
           </div>
-        </header>
+        </div>
 
-        {/* [C] MOBILE HAMBURGER MENU (dropdown) */}
-        <AnimatePresence>
-          {isMenuOpen && (
-            <motion.div
-              id="mobile-dropdown-menu"
-              initial={{ opacity: 0, y: -16 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -16 }}
-              transition={{ duration: 0.15 }}
-              className="absolute top-full left-0 w-full bg-[#2E7D32] border-t border-white/10 shadow-xl z-50 md:hidden"
+        {/* 3. HORIZONTAL PILLS TAB RIBBON (Square Borders) */}
+        <div className="w-full flex items-center justify-center max-w-lg mt-0.5">
+          <div className="grid grid-cols-4 gap-2 w-full">
+            {/* Home Pill */}
+            <button
+              onClick={() => setActiveTab('home')}
+              className={`flex items-center justify-center gap-1.5 py-2 px-1 text-center font-bold text-xs border transition-all cursor-pointer rounded-none uppercase tracking-wide ${
+                activeTab === 'home'
+                  ? 'bg-white text-[#2E7D32] border-white font-extrabold shadow-sm'
+                  : 'bg-white/10 text-white border-white/20 hover:bg-white/15'
+              }`}
             >
-              <div className="grid grid-cols-2 gap-2.5 p-4 max-w-lg mx-auto">
-                <button
-                  onClick={() => handleLinkClick('home')}
-                  className="flex items-center gap-2 bg-white/10 hover:bg-white/15 px-4 py-3 rounded-xl text-sm font-semibold text-white transition-all text-left justify-start active:translate-y-0.5"
-                >
-                  <span className="text-base">🏠</span> Home
-                </button>
-                <button
-                  onClick={() => handleLinkClick('about')}
-                  className="flex items-center gap-2 bg-white/10 hover:bg-white/15 px-4 py-3 rounded-xl text-sm font-semibold text-white transition-all text-left justify-start active:translate-y-0.5"
-                >
-                  <Info className="w-4 h-4 text-green-200" /> About Us
-                </button>
-                <button
-                  onClick={() => handleLinkClick('contact')}
-                  className="flex items-center gap-2 bg-white/10 hover:bg-white/15 px-4 py-3 rounded-xl text-sm font-semibold text-white transition-all text-left justify-start active:translate-y-0.5"
-                >
-                  <MessageSquare className="w-4 h-4 text-green-200" /> Contact
-                </button>
-                <button
-                  onClick={() => handleLinkClick('products')}
-                  className="flex items-center gap-2 bg-white/10 hover:bg-white/15 px-4 py-3 rounded-xl text-sm font-semibold text-white transition-all text-left justify-start active:translate-y-0.5"
-                >
-                  <ListCollapse className="w-4 h-4 text-green-200" /> Shop / Orders
-                </button>
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
-      </div>
-    </>
+              <Home className="w-3.5 h-3.5" />
+              <span>Home</span>
+            </button>
+
+            {/* About Pill */}
+            <button
+              onClick={() => setActiveTab('about')}
+              className={`flex items-center justify-center gap-1.5 py-2 px-1 text-center font-bold text-xs border transition-all cursor-pointer rounded-none uppercase tracking-wide ${
+                activeTab === 'about'
+                  ? 'bg-white text-[#2E7D32] border-white font-extrabold shadow-sm'
+                  : 'bg-white/10 text-white border-white/20 hover:bg-white/15'
+              }`}
+            >
+              <Info className="w-3.5 h-3.5" />
+              <span>About</span>
+            </button>
+
+            {/* Contact Pill */}
+            <button
+              onClick={() => setActiveTab('contact')}
+              className={`flex items-center justify-center gap-1.5 py-2 px-1 text-center font-bold text-xs border transition-all cursor-pointer rounded-none uppercase tracking-wide ${
+                activeTab === 'contact'
+                  ? 'bg-white text-[#2E7D32] border-white font-extrabold shadow-sm'
+                  : 'bg-white/10 text-white border-white/20 hover:bg-white/15'
+              }`}
+            >
+              <Mail className="w-3.5 h-3.5" />
+              <span>Contact</span>
+            </button>
+
+            {/* Orders Pill */}
+            <button
+              onClick={() => setActiveTab('orders')}
+              className={`flex items-center justify-center gap-1.5 py-2 px-1 text-center font-bold text-xs border transition-all cursor-pointer rounded-none uppercase tracking-wide ${
+                activeTab === 'orders'
+                  ? 'bg-white text-[#2E7D32] border-white font-extrabold shadow-sm'
+                  : 'bg-white/10 text-white border-white/20 hover:bg-white/15'
+              }`}
+            >
+              <RotateCcw className="w-3.5 h-3.5" />
+              <span>Orders</span>
+            </button>
+          </div>
+        </div>
+
+      </header>
+    </div>
   );
 }

@@ -25,8 +25,8 @@ interface CartDrawerProps {
 const WhatsAppIconSVG = () => (
   <svg
     viewBox="0 0 24 24"
-    width="20"
-    height="20"
+    width="18"
+    height="18"
     fill="currentColor"
     className="inline-block"
   >
@@ -92,37 +92,37 @@ export default function CartDrawer({
         className="absolute inset-0 bg-black/40 backdrop-blur-xs"
       />
 
-      {/* [M] Cart Bottom Sheet Drawer Container */}
+      {/* [M] Cart Bottom Sheet Drawer Container - COMPLETELY SQUARE */}
       <motion.div
         initial={{ y: '100%' }}
         animate={{ y: 0 }}
         exit={{ y: '100%' }}
         transition={{ type: 'spring', damping: 28, stiffness: 260 }}
-        className="relative w-full max-w-lg bg-white rounded-t-[2.5rem] shadow-2xl z-40 max-h-[92vh] overflow-y-auto flex flex-col"
+        className="relative w-full max-w-lg bg-white shadow-2xl z-40 max-h-[92vh] overflow-y-auto flex flex-col rounded-none border-t-2 border-gray-400"
       >
-        {/* Grey pull slider horizontal bar */}
+        {/* Grey pull slider horizontal bar (square styled) */}
         <div className="w-full flex justify-center py-3 select-none">
-          <div className="w-12 h-1.5 bg-gray-200 rounded-full" />
+          <div className="w-12 h-1.5 bg-gray-205 border border-gray-300" />
         </div>
 
-        {/* Drawer Header card container */}
-        <div className="mx-4 mb-2 bg-[#2E7D32] text-white p-4.5 rounded-3xl relative flex items-center justify-between shadow-md">
+        {/* Drawer Header with Square Edges */}
+        <div className="mx-4 mb-2 bg-[#2E7D32] text-white p-4.5 rounded-none border-2 border-green-800 relative flex items-center justify-between shadow-xs">
           <div className="flex items-center gap-3">
-            <div className="w-11 h-11 rounded-full bg-white/20 flex items-center justify-center text-xl shadow-xs">
+            <div className="w-11 h-11 bg-white/20 border border-white flex items-center justify-center text-xl shadow-xs rounded-none">
               🧺
             </div>
             <div>
-              <h2 className="text-base font-extrabold leading-tight">
-                Your Active Fresh Basket
+              <h2 className="text-sm font-black uppercase tracking-wider leading-tight">
+                Your Active Vegetables Basket
               </h2>
-              <p className="text-xs text-white/80 mt-1 font-medium">
+              <p className="text-[10px] text-white/80 mt-1 uppercase tracking-wide font-black">
                 Have {orderItems.length} types of vegetables
               </p>
             </div>
           </div>
           <button
             onClick={onClose}
-            className="w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center transition-all active:scale-90 cursor-pointer"
+            className="w-10 h-10 bg-white/10 hover:bg-white/20 border border-white/20 flex items-center justify-center transition-all active:scale-95 cursor-pointer rounded-none"
             aria-label="Close cart basket drawer"
           >
             <X className="w-5 h-5 text-white" />
@@ -130,14 +130,14 @@ export default function CartDrawer({
         </div>
 
         {/* SECTION LABEL */}
-        <div className="w-full px-5 py-3 select-none bg-gray-50/50 border-b border-gray-100">
-          <div className="flex items-center gap-1.5 text-[10px] font-bold text-[#2E7D32] tracking-wider uppercase">
-            <span>🌿</span> REVIEW ORDERED CROPS
+        <div className="w-full px-5 py-3 select-none bg-gray-50 border-b border-gray-200">
+          <div className="flex items-center gap-1.5 text-[9px] font-black text-[#2E7D32] tracking-wider uppercase">
+            <span>🌿</span> Review Ordered Crops
           </div>
         </div>
 
-        {/* Dynamic content scroll frame */}
-        <div className="flex-1 px-5 py-4 overflow-y-auto max-h-[40vh] flex flex-col gap-3">
+        {/* Dynamic content scroll frame with clean square items */}
+        <div className="flex-1 px-5 py-4 overflow-y-auto max-h-[40vh] flex flex-col gap-3.5">
           <AnimatePresence initial={false}>
             {orderItems.length === 0 ? (
               <motion.div
@@ -145,12 +145,12 @@ export default function CartDrawer({
                 animate={{ opacity: 1 }}
                 className="py-12 px-4 text-center text-gray-400 select-none flex flex-col items-center justify-center gap-3"
               >
-                <div className="w-16 h-16 rounded-full bg-green-50 flex items-center justify-center text-[#2E7D32]/85 mb-2 shadow-inner">
+                <div className="w-16 h-16 border-2 border-dashed border-gray-300 flex items-center justify-center text-[#2E7D32]/85 mb-2 rounded-none">
                   <ShoppingCart className="w-7 h-7" />
                 </div>
-                <h3 className="text-sm font-bold text-gray-700">Your basket is empty!</h3>
-                <p className="text-xs text-gray-500 max-w-xs mt-0.5 leading-relaxed">
-                  Browse tomatoes, okra, cauliflower, spinach, or fruits above and tap '+' to add delicious farm crops!
+                <h3 className="text-xs font-black text-gray-700 uppercase tracking-wider">Your basket is empty!</h3>
+                <p className="text-[11px] text-gray-500 max-w-xs mt-0.5 leading-relaxed font-bold">
+                  Browse fresh garden produce and tap '+' to add delicious raw crops.
                 </p>
               </motion.div>
             ) : (
@@ -166,36 +166,36 @@ export default function CartDrawer({
                 return (
                   <motion.div
                     key={item.product.id}
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
                     exit={{ opacity: 0, scale: 0.95 }}
                     transition={{ duration: 0.2 }}
-                    className="flex items-center justify-between p-3.5 bg-gray-50 hover:bg-gray-100/55 rounded-2xl border border-gray-200 transition-colors"
+                    className="flex items-center justify-between p-3 bg-gray-50 hover:bg-gray-100 border-2 border-gray-300 rounded-none transition-colors"
                   >
                     {/* Left details */}
                     <div className="flex items-center gap-3 flex-1 min-w-0 pr-2">
                       <div
                         style={{ backgroundColor: item.product.bgColor }}
-                        className="w-11 h-11 rounded-full flex items-center justify-center text-xl shadow-xs border border-white flex-shrink-0"
+                        className="w-11 h-11 border border-gray-300 flex items-center justify-center text-xl shadow-xs flex-shrink-0 rounded-none"
                       >
                         {item.product.emoji}
                       </div>
                       <div className="text-left truncate">
-                        <h4 className="text-sm font-bold text-gray-800 leading-tight">
+                        <h4 className="text-xs font-black text-gray-800 leading-tight uppercase">
                           {item.product.gujaratiName}
                         </h4>
-                        <span className="text-[11px] text-gray-500 block lowercase mt-0.5 font-medium">
+                        <span className="text-[10px] text-gray-500 block lowercase mt-0.5 font-bold">
                           ({item.product.englishName})
                         </span>
-                        <span className="text-[10px] text-gray-400 block font-semibold mt-1">
+                        <span className="text-[9px] text-[#2E7D32] block font-black mt-1 uppercase tracking-wide bg-white border border-[#2E7D32]/10 px-1 py-0.5 self-start inline-block">
                           {item.quantity} {item.unit} @ {priceLabel}
                         </span>
                       </div>
                     </div>
 
                     {/* Quantity Adjustment Controls + Trash */}
-                    <div className="flex items-center gap-3 flex-shrink-0">
-                      <div className="bg-white rounded-xl py-1 px-1.5 border border-gray-200 flex items-center gap-2 shadow-xs">
+                    <div className="flex items-center gap-2 flex-shrink-0">
+                      <div className="bg-white border-2 border-gray-400 py-1 px-1 flex items-center gap-1.5 shadow-xs rounded-none">
                         {/* Decrement */}
                         <button
                           onClick={() => {
@@ -207,13 +207,13 @@ export default function CartDrawer({
                               onQuantityChange(item.product.id, nextVal);
                             }
                           }}
-                          className="w-6 h-6 rounded-lg bg-gray-50 hover:bg-red-50 hover:text-red-600 flex items-center justify-center transition-colors text-xs font-semibold"
+                          className="w-6 h-6 border border-gray-300 bg-gray-50 hover:bg-red-50 hover:text-red-650 flex items-center justify-center transition-colors text-xs font-black rounded-none cursor-pointer"
                           aria-label="Decrease"
                         >
                           <Minus className="w-3.5 h-3.5" />
                         </button>
 
-                        <span className="text-xs font-bold text-gray-800 min-w-8 text-center font-mono">
+                        <span className="text-xs font-black text-gray-850 min-w-8 text-center font-mono">
                           {item.quantity}
                         </span>
 
@@ -223,7 +223,7 @@ export default function CartDrawer({
                             const step = item.unit === 'GRAM' ? 100 : 1;
                             onQuantityChange(item.product.id, item.quantity + step);
                           }}
-                          className="w-6 h-6 rounded-lg bg-gray-50 hover:bg-[#2E7D32] hover:text-white flex items-center justify-center transition-colors text-xs font-semibold"
+                          className="w-6 h-6 border border-gray-300 bg-gray-50 hover:bg-[#2E7D32] hover:text-white flex items-center justify-center transition-colors text-xs font-black rounded-none cursor-pointer"
                           aria-label="Increase"
                         >
                           <Plus className="w-3.5 h-3.5" />
@@ -233,17 +233,17 @@ export default function CartDrawer({
                       {/* Explicit Delete Button */}
                       <button
                         onClick={() => onRemoveItem(item.product.id)}
-                        className="w-9 h-9 rounded-xl bg-red-50 hover:bg-red-100 flex items-center justify-center text-red-500 transition-colors"
+                        className="w-8 h-8 bg-red-50 border border-red-200 hover:bg-red-100 flex items-center justify-center text-red-500 transition-colors rounded-none cursor-pointer"
                         title="Delete product"
                       >
-                        <Trash2 className="w-4.5 h-4.5" />
+                        <Trash2 className="w-4 h-4" />
                       </button>
                     </div>
 
                     {/* Price total */}
-                    <div className="pl-3 text-right">
-                      <span className="text-sm font-extrabold text-[#2E7D32]">
-                        ₹{itemCost.toFixed(1)}
+                    <div className="pl-3.5 text-right flex-shrink-0 min-w-[50px]">
+                      <span className="text-xs font-black text-[#2E7D32]">
+                        ₹{itemCost.toFixed(2)}
                       </span>
                     </div>
                   </motion.div>
@@ -254,48 +254,49 @@ export default function CartDrawer({
         </div>
 
         {/* Bottom review card details */}
-        <div className="px-5 pb-6 pt-2 bg-white flex flex-col gap-4 border-t border-gray-200">
-          {/* TOTALS BLOCK (Gray-50) */}
-          <div className="bg-gray-50 p-4.5 rounded-2xl flex flex-col gap-2 shadow-xs border border-gray-200 text-sm select-none">
-            <div className="flex justify-between items-center text-gray-500 font-semibold text-xs uppercase tracking-wider">
+        <div className="px-5 pb-6 pt-2 bg-white flex flex-col gap-4 border-t border-gray-200 rounded-none">
+          {/* TOTALS BLOCK with zero corners */}
+          <div className="bg-gray-50 p-4 border-2 border-gray-300 flex flex-col gap-2 shadow-xs text-xs select-none rounded-none font-bold">
+            <div className="flex justify-between items-center text-gray-400 font-black uppercase tracking-wider">
               <span>Items Total:</span>
               <span className="text-gray-800 font-mono">₹{itemsTotal.toFixed(2)}</span>
             </div>
-            <div className="flex justify-between items-center text-xs text-gray-500 font-semibold tracking-wider">
-              <span>Delivery Handling Charge:</span>
-              <span className="text-[#2E7D32] font-semibold uppercase font-bold">FREE</span>
+            <div className="flex justify-between items-center text-[11px] text-gray-400 font-black tracking-wider uppercase">
+              <span>Delivery Charge:</span>
+              <span className="text-[#2E7D32] font-black uppercase">FREE</span>
             </div>
-            <div className="h-px bg-gray-200 my-1" />
+            <div className="h-px bg-gray-300 my-1" />
             <div className="flex justify-between items-center">
-              <span className="text-gray-800 font-bold text-sm tracking-wide">Order Grand Total:</span>
-              <span className="text-lg text-[#FFA000] font-extrabold">
+              <span className="text-gray-800 font-black uppercase tracking-wide">GRAND TOTAL:</span>
+              <span className="text-base text-[#FFA500] font-black font-mono">
                 ₹{grandTotal.toFixed(2)}
               </span>
             </div>
           </div>
 
-          {/* AMBER ADVISORY BANNER */}
-          <div className="bg-amber-50 border border-amber-200 p-3.5 rounded-2xl flex items-start gap-2.5">
-            <ShieldCheck className="w-5 h-5 text-amber-500 flex-shrink-0 mt-0.5" />
-            <div className="text-left">
-              <h4 className="text-xs font-bold text-amber-800">No Advance Payment Needed!</h4>
-              <p className="text-[11px] text-amber-600 mt-1 leading-relaxed">
+          {/* AMBER ADVISORY BANNER - Completely square edges */}
+          <div className="bg-amber-50 border-2 border-amber-200 p-3.5 flex items-start gap-2.5 rounded-none">
+            <ShieldCheck className="w-4.5 h-4.5 text-amber-500 flex-shrink-0 mt-0.5" />
+            <div className="text-left font-bold">
+              <h4 className="text-[11px] font-black text-amber-800 uppercase tracking-wider">No Advance Payment Needed!</h4>
+              <p className="text-[10px] text-amber-600 mt-1 leading-relaxed">
                 This order is cash-on-delivery. You can easily pay with cash or compile instant UPI scans directly at physical delivery time next morning.
               </p>
             </div>
           </div>
 
-          {/* MAIN CTA WHATSAPP ORDER PLACEMENT BUTTON */}
+          {/* MAIN CTA WHATSAPP ORDER PLACEMENT BUTTON - Square edges */}
           <button
             onClick={onCheckout}
             disabled={orderItems.length === 0}
-            className={`w-full py-4 text-white rounded-2xl font-bold font-semibold text-base transition-all flex items-center justify-center gap-2 shadow-lg active:scale-[0.98] cursor-pointer ${
+            className={`w-full py-3.5 text-white font-black text-xs uppercase tracking-widest transition-all flex items-center justify-center gap-2 shadow-md active:scale-[0.98] cursor-pointer rounded-none border-2 ${
               orderItems.length > 0
-                ? 'bg-[#25D366] hover:bg-[#128C7E] hover:shadow-xl'
-                : 'bg-gray-300 shadow-none cursor-not-allowed'
+                ? 'bg-[#25D366] hover:bg-[#128C7E] border-[#128C7E]'
+                : 'bg-gray-300 hover:bg-gray-300 border-gray-400 cursor-not-allowed text-gray-400'
             }`}
           >
-            <WhatsAppIconSVG /> Place Order on WhatsApp
+            <WhatsAppIconSVG />
+            <span>Place Order on WhatsApp</span>
           </button>
         </div>
       </motion.div>

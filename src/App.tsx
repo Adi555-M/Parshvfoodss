@@ -1,5 +1,5 @@
 import React from 'react';
-import { ShoppingCart } from 'lucide-react';
+import { ShoppingBag, ArrowRight } from 'lucide-react';
 import { AnimatePresence, motion } from 'motion/react';
 
 // Modular files imports
@@ -11,6 +11,10 @@ import ProfileDrawer from './components/ProfileDrawer';
 import CartDrawer from './components/CartDrawer';
 import Sections from './components/Sections';
 
+import AboutView from './components/AboutView';
+import ContactView from './components/ContactView';
+import OrdersView from './components/OrdersView';
+
 import { PRODUCTS } from './data';
 import { Profile } from './types';
 
@@ -19,7 +23,7 @@ export default function App() {
   const [cart, setCart] = React.useState<Record<string, number>>({});
   const [selectedUnits, setSelectedUnits] = React.useState<Record<string, 'KG' | 'GRAM' | 'DOZEN'>>({});
   const [searchQuery, setSearchQuery] = React.useState('');
-  const [selectedCategory, setSelectedCategory] = React.useState('All');
+  const [activeTab, setActiveTab] = React.useState<'home' | 'about' | 'contact' | 'orders'>('home');
   
   const [isCartOpen, setIsCartOpen] = React.useState(false);
   const [isProfileOpen, setIsProfileOpen] = React.useState(false);
@@ -78,7 +82,7 @@ export default function App() {
     );
   }, [profile]);
 
-  // Compute total unique item types and dollar/rupee cost in current basket
+  // Compute total unique item types and cost in current basket
   const cartItemSummary = React.useMemo(() => {
     let distinctTypes = 0;
     let grandRupeeTotal = 0;
@@ -107,39 +111,25 @@ export default function App() {
     };
   }, [cart, selectedUnits]);
 
-  // Filter products by query and selection category
+  // Filter products ONLY by queries (removed category tags as requested)
   const filteredProducts = React.useMemo(() => {
     return PRODUCTS.filter((product) => {
-      const matchQuery =
+      return (
         product.englishName.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        product.gujaratiName.toLowerCase().includes(searchQuery.toLowerCase());
-
-      if (selectedCategory === 'All') {
-        return matchQuery;
-      }
-      return product.category === selectedCategory && matchQuery;
+        product.gujaratiName.toLowerCase().includes(searchQuery.toLowerCase())
+      );
     });
-  }, [searchQuery, selectedCategory]);
+  }, [searchQuery]);
 
-  // smooth anchor navigation scrolling
-  const scrollToSection = (id: string) => {
-    const section = document.getElementById(id);
-    if (section) {
-      section.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
-  };
-
-  // WhatsApp Message Generator / Submission
+  // WhatsApp Message Generator / Submission (opens WhatsApp directly)
   const handleCheckout = () => {
-    // GATE CHECK: If profile elements are not filled, open profile drawer immediately
     if (!isProfileFilled) {
       setIsCartOpen(false);
       setIsProfileOpen(true);
-      // Give native browser alert fallback or styling
+      alert('Please fill out your Delivery Profile details before checkout!');
       return;
     }
 
-    // Build the ordered elements listing
     const cropsLines: string[] = [];
     Object.entries(cart).forEach(([id, qty]) => {
       const quantityNum = qty as number;
@@ -147,20 +137,15 @@ export default function App() {
       const product = PRODUCTS.find((p) => p.id === id);
       if (!product) return;
 
-      const unit = selectedUnits[id] || 'KG';
+      const unit = selectedUnits[id] || (product.baseUnit as 'KG' | 'GRAM' | 'DOZEN');
       let rowCost = 0;
-      let priceLabel = '';
 
       if (unit === 'GRAM') {
         rowCost = (quantityNum / 1000) * product.price;
-        priceLabel = `(${quantityNum} GRAM @ ₹${product.price}/kg)`;
       } else if (product.id === '5' && unit === 'KG') {
         rowCost = quantityNum * 250;
-        priceLabel = `(${quantityNum} KG @ ₹250/kg)`;
       } else {
         rowCost = quantityNum * product.price;
-        const perLabel = product.baseUnit === 'DOZEN' ? 'dozen' : 'kg';
-        priceLabel = `(${quantityNum} ${unit} @ ₹${product.price}/${perLabel})`;
       }
 
       cropsLines.push(
@@ -187,164 +172,213 @@ export default function App() {
       '',
       `*Total Cost: ₹${cartItemSummary.grandRupeeTotal.toFixed(2)}*`,
       'Delivery Handling Fee: FREE 🚚',
-      'Payment Mode: cash / Scan UPI on delivery',
+      'Payment Mode: Cash / Scan UPI on delivery',
       '',
       'Please confirm my next morning vegetable delivery order! Thank you! 😊',
     ];
 
     const encodedMessage = encodeURIComponent(lines.join('\n'));
-    // Secure direct link to bypass modal blockings
-    const whatsAppUrl = `https://wa.me/919876543210?text=${encodedMessage}`;
+    // Secure direct link to Surat official business whatsapp line
+    const whatsAppUrl = `https://wa.me/916355532061?text=${encodedMessage}`;
 
     // Open link in a secure tab
     window.open(whatsAppUrl, '_blank', 'noopener,noreferrer');
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 flex justify-center items-start p-3 sm:p-6 md:p-8 selection:bg-[#2E7D32]/20 selection:text-[#2E7D32] w-full">
-      <div className="w-full max-w-xl bg-[#F7F7F7] rounded-[2.5rem] border border-gray-200/95 shadow-2xl overflow-hidden flex flex-col justify-between min-h-[94vh] relative">
+    <div className="min-h-screen bg-gray-100 flex justify-center items-start p-0 selection:bg-[#2E7D32]/20 selection:text-[#2E7D32] w-full">
+      {/* Shell Container - COMPLETELY SQUARE (no rounded-t or rounded rounded-[2.5rem]) */}
+      <div className="w-full max-w-lg bg-[#FAF9F6] border-2 border-gray-300 shadow-2xl overflow-hidden flex flex-col justify-between min-h-[100vh] relative rounded-none">
         <div className="w-full">
-        {/* Navbar */}
-        <Navbar
-          cartCount={cartItemSummary.distinctTypes}
-          cartTotal={cartItemSummary.grandRupeeTotal}
-          isProfileFilled={isProfileFilled}
-          onCartClick={() => setIsCartOpen(true)}
-          onProfileClick={() => setIsProfileOpen(true)}
-          onScrollTo={scrollToSection}
-        />
-
-        {/* Hero Section */}
-        <Hero onOrderNowClick={() => scrollToSection('products')} />
-
-        {/* Search, Filter bar, Clock Banner */}
-        <div id="products" className="scroll-mt-24">
-          <SearchFilter
-            searchQuery={searchQuery}
-            setSearchQuery={setSearchQuery}
-            selectedCategory={selectedCategory}
-            setSelectedCategory={setSelectedCategory}
+          {/* Navbar wrapper (visible on all views to permit tab shifts) */}
+          <Navbar
+            cartCount={cartItemSummary.distinctTypes}
+            cartTotal={cartItemSummary.grandRupeeTotal}
+            isProfileFilled={isProfileFilled}
+            onCartClick={() => setIsCartOpen(true)}
+            onProfileClick={() => setIsProfileOpen(true)}
+            activeTab={activeTab}
+            setActiveTab={setActiveTab}
           />
-        </div>
 
-        {/* Product Grid section */}
-        <main className="px-4 py-8 max-w-7xl mx-auto text-center">
-          <h2 className="text-2xl sm:text-3xl font-extrabold text-gray-800 leading-tight">
-            Today's Fresh Vegetables
-          </h2>
-          <p className="text-xs text-gray-400 mt-1 max-w-xs mx-auto">
-            Handpicked and delivered raw, clean and delicious 🥦
-          </p>
-
-          <AnimatePresence mode="popLayout">
-            {filteredProducts.length === 0 ? (
+          {/* VIEW ROUTER FOR SEPARATED PAGES */}
+          <AnimatePresence mode="wait">
+            {activeTab === 'home' && (
               <motion.div
+                key="home"
+                initial={{ opacity: 0, k: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.15 }}
+              >
+                {/* Hero Section */}
+                <Hero onOrderNowClick={() => {
+                  const el = document.getElementById('products-heading');
+                  if (el) el.scrollIntoView({ behavior: 'smooth' });
+                }} />
+
+                {/* Searchbar & Info clocks */}
+                <SearchFilter
+                  searchQuery={searchQuery}
+                  setSearchQuery={setSearchQuery}
+                />
+
+                {/* Product Grid section */}
+                <main className="px-4 py-6 max-w-7xl mx-auto text-center select-none mt-2">
+                  <h2 id="products-heading" className="text-xl font-black text-gray-800 uppercase tracking-wider">
+                    Today's Fresh Vegetables
+                  </h2>
+                  <p className="text-[10px] font-bold text-gray-400 mt-1 uppercase tracking-wide">
+                    Handpicked and delivered raw, clean and delicious 🥦
+                  </p>
+
+                  <div className="grid grid-cols-2 gap-4 mt-6">
+                    {filteredProducts.length === 0 ? (
+                      <div className="col-span-2 py-12 text-center text-gray-400 flex flex-col items-center justify-center gap-2 border-2 border-dashed border-gray-300 bg-white rounded-none">
+                        <span className="text-3xl">🥬</span>
+                        <h3 className="font-black text-xs uppercase tracking-wider text-gray-650">No vegetables found!</h3>
+                        <p className="text-[10px] font-bold text-gray-500 max-w-[200px] mt-1 text-center">
+                          We currently do not have any items matching "{searchQuery}".
+                        </p>
+                      </div>
+                    ) : (
+                      filteredProducts.map((product, idx) => (
+                        <ProductCard
+                          key={product.id}
+                          product={product}
+                          index={idx}
+                          quantity={cart[product.id] || 0}
+                          unit={selectedUnits[product.id] || (product.baseUnit as 'KG' | 'GRAM' | 'DOZEN')}
+                          onQuantityChange={(qty) => handleQuantityChange(product.id, qty)}
+                          onUnitChange={(unit) => handleUnitChange(product.id, unit)}
+                        />
+                      ))
+                    )}
+                  </div>
+                </main>
+              </motion.div>
+            )}
+
+            {activeTab === 'about' && (
+              <motion.div
+                key="about"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
-                className="py-14 text-center text-gray-400 flex flex-col items-center justify-center gap-3"
+                transition={{ duration: 0.15 }}
               >
-                <div className="w-14 h-14 rounded-full bg-gray-100 flex items-center justify-center text-2xl mb-2">
-                  🥬
-                </div>
-                <h3 className="font-extrabold text-gray-700 text-sm">No vegetables found!</h3>
-                <p className="text-xs text-gray-500 mt-1 max-w-xs text-center leading-relaxed">
-                  We currently do not have any items matching "{searchQuery}". Try selecting another filter!
-                </p>
+                <AboutView />
               </motion.div>
-            ) : (
-              <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-4.5 sm:gap-6 mt-8">
-                {filteredProducts.map((product, idx) => (
-                  <ProductCard
-                    key={product.id}
-                    product={product}
-                    index={idx}
-                    quantity={cart[product.id] || 0}
-                    unit={selectedUnits[product.id] || (product.baseUnit as 'KG' | 'GRAM' | 'DOZEN')}
-                    onQuantityChange={(qty) => handleQuantityChange(product.id, qty)}
-                    onUnitChange={(unit) => handleUnitChange(product.id, unit)}
-                  />
-                ))}
-              </div>
+            )}
+
+            {activeTab === 'contact' && (
+              <motion.div
+                key="contact"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.15 }}
+              >
+                <ContactView />
+              </motion.div>
+            )}
+
+            {activeTab === 'orders' && (
+              <motion.div
+                key="orders"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.15 }}
+              >
+                <OrdersView
+                  cart={cart}
+                  selectedUnits={selectedUnits}
+                  products={PRODUCTS}
+                  profile={profile}
+                  onEditProfile={() => setIsProfileOpen(true)}
+                  onBrowseHome={() => setActiveTab('home')}
+                  onCheckout={handleCheckout}
+                  cartTotal={cartItemSummary.grandRupeeTotal}
+                />
+              </motion.div>
             )}
           </AnimatePresence>
-        </main>
 
-        {/* Dynamic Static Sections (Why Choose Us, Our Story, Contact, Footer) */}
-        <Sections
-          onBrowseClick={() => scrollToSection('products')}
-          onContactPhoneClick={() => {
-            const encoded = encodeURIComponent('Hello Parshv Foods! 🌿 I am interested in ordering farm-fresh vegetables in Surat. Please add me to your daily broadcast list! Thank you.');
-            window.open(`https://wa.me/919876543210?text=${encoded}`, '_blank', 'noopener,noreferrer');
-          }}
-        />
-      </div>
+          {/* Dynamic Marketing Sections & Global Footer */}
+          <Sections
+            activeTab={activeTab}
+            setActiveTab={setActiveTab}
+            onBrowseClick={() => setActiveTab('home')}
+            onContactPhoneClick={() => {
+              const text = encodeURIComponent('Hello Parshv Foods! 🌿 I would like to join your Surat broadcasting list. Please send daily crop updates! Thank you.');
+              window.open(`https://wa.me/916355532061?text=${text}`, '_blank', 'noopener,noreferrer');
+            }}
+          />
+        </div>
 
-      {/* [L] Interactive Fixed Mini Floating Basket indicator */}
-      <AnimatePresence>
-        {cartItemSummary.distinctTypes > 0 && !isCartOpen && (
-          <motion.div
-            initial={{ opacity: 0, y: 50, scale: 0.95 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: 50, scale: 0.95 }}
-            transition={{ type: 'spring', damping: 25, stiffness: 300 }}
-            className="fixed bottom-4 left-4 right-4 z-40 max-w-lg mx-auto pointer-events-auto"
-          >
-            <div
-              onClick={() => setIsCartOpen(true)}
-              className="bg-[#2E7D32] hover:bg-emerald-700 text-white rounded-2xl px-4.5 py-4 flex items-center justify-between shadow-xl cursor-pointer active:scale-[0.98] transition-all border border-green-550/40 select-none animate-bounce-subtle"
+        {/* [L] Interactive Floating Basket widget (Completely square styled) */}
+        <AnimatePresence>
+          {cartItemSummary.distinctTypes > 0 && !isCartOpen && activeTab !== 'orders' && (
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: 30 }}
+              className="fixed bottom-4 left-4 right-4 z-40 max-w-sm mx-auto pointer-events-auto select-none"
             >
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-xl bg-white/11 flex items-center justify-center shadow-inner">
-                  <ShoppingCart className="w-5 h-5 text-white" />
+              <div
+                onClick={() => setIsCartOpen(true)}
+                className="bg-[#2E7D32] hover:bg-emerald-700 text-white rounded-none px-4 py-3.5 flex items-center justify-between shadow-xl cursor-pointer active:scale-[0.98] transition-all border-2 border-green-800"
+              >
+                <div className="flex items-center gap-3">
+                  <div className="w-9 h-9 bg-white/10 border border-white flex items-center justify-center text-white rounded-none">
+                    <ShoppingBag className="w-4.5 h-4.5 text-white" />
+                  </div>
+                  <div className="text-left font-bold">
+                    <span className="text-[10px] text-green-150 block uppercase tracking-wide">
+                      {cartItemSummary.distinctTypes} {cartItemSummary.distinctTypes === 1 ? 'variety' : 'varieties'} selected
+                    </span>
+                    <span className="text-xs uppercase tracking-wider block font-black text-white">
+                      View Basket
+                    </span>
+                  </div>
                 </div>
-                <div className="text-left">
-                  <span className="text-[11px] text-green-150 font-bold block leading-none">
-                    {cartItemSummary.distinctTypes} {cartItemSummary.distinctTypes === 1 ? 'type' : 'types'} of vegetables
-                  </span>
-                  <span className="text-sm font-extrabold uppercase mt-1 block tracking-wider">
-                    View Basket
-                  </span>
+                <div className="flex items-center gap-2 font-black">
+                  <span className="text-sm font-black">₹{cartItemSummary.grandRupeeTotal.toFixed(2)}</span>
+                  <ArrowRight className="w-4 h-4 text-white" />
                 </div>
               </div>
-              <div className="flex items-center gap-1.5">
-                <span className="text-xs text-green-200 mt-0.5">Grand Total:</span>
-                <span className="text-base font-extrabold text-white">
-                  ₹{cartItemSummary.grandRupeeTotal.toFixed(1)}
-                </span>
-              </div>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+            </motion.div>
+          )}
+        </AnimatePresence>
 
-      {/* Drawer Components overlay */}
-      <AnimatePresence>
-        {isProfileOpen && (
-          <ProfileDrawer
-            isOpen={isProfileOpen}
-            profile={profile}
-            onClose={() => setIsProfileOpen(false)}
-            onSave={handleSaveProfile}
-          />
-        )}
-      </AnimatePresence>
+        {/* Drawer Components overlay */}
+        <AnimatePresence>
+          {isProfileOpen && (
+            <ProfileDrawer
+              isOpen={isProfileOpen}
+              profile={profile}
+              onClose={() => setIsProfileOpen(false)}
+              onSave={handleSaveProfile}
+            />
+          )}
+        </AnimatePresence>
 
-      <AnimatePresence>
-        {isCartOpen && (
-          <CartDrawer
-            isOpen={isCartOpen}
-            cart={cart}
-            selectedUnits={selectedUnits}
-            products={PRODUCTS}
-            profile={profile}
-            onClose={() => setIsCartOpen(false)}
-            onCheckout={handleCheckout}
-            onQuantityChange={handleQuantityChange}
-            onRemoveItem={handleRemoveItem}
-          />
-        )}
-      </AnimatePresence>
+        <AnimatePresence>
+          {isCartOpen && (
+            <CartDrawer
+              isOpen={isCartOpen}
+              cart={cart}
+              selectedUnits={selectedUnits}
+              products={PRODUCTS}
+              profile={profile}
+              onClose={() => setIsCartOpen(false)}
+              onCheckout={handleCheckout}
+              onQuantityChange={handleQuantityChange}
+              onRemoveItem={handleRemoveItem}
+            />
+          )}
+        </AnimatePresence>
       </div>
     </div>
   );

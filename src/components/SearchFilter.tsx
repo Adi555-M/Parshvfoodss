@@ -1,23 +1,19 @@
-import { Search, Clock, Leaf } from 'lucide-react';
-import { CATEGORIES } from '../data';
+import React from 'react';
+import { Search, Clock } from 'lucide-react';
 
 interface SearchFilterProps {
   searchQuery: string;
   setSearchQuery: (query: string) => void;
-  selectedCategory: string;
-  setSelectedCategory: (category: string) => void;
 }
 
 export default function SearchFilter({
   searchQuery,
   setSearchQuery,
-  selectedCategory,
-  setSelectedCategory,
 }: SearchFilterProps) {
   return (
-    <section className="px-4 py-4 max-w-7xl mx-auto flex flex-col gap-4">
-      {/* Search Input Box */}
-      <div className="relative w-full max-w-md mx-auto">
+    <section className="px-4 py-4 max-w-lg mx-auto flex flex-col gap-4.5 select-none">
+      {/* Search Input Box (Square edges) */}
+      <div className="relative w-full">
         <label htmlFor="veg-search-input" className="sr-only">Search vegetable name</label>
         <span className="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none">
           <Search className="h-5 w-5 text-gray-400" />
@@ -28,51 +24,26 @@ export default function SearchFilter({
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
           placeholder="Search vegetables..."
-          className="w-full bg-white text-gray-800 pl-11 pr-4 py-3 rounded-full text-sm border border-gray-200 outline-none focus:border-[#2E7D32] focus:ring-1 focus:ring-[#2E7D32] shadow-sm transition-all placeholder:text-gray-400"
+          className="w-full bg-white text-gray-800 pl-11 pr-4 py-3 rounded-none text-sm border-2 border-gray-300 outline-none focus:border-[#2E7D32] focus:ring-0 shadow-sm transition-all placeholder:text-gray-400 font-bold"
         />
         {searchQuery && (
           <button
             onClick={() => setSearchQuery('')}
-            className="absolute inset-y-0 right-0 pr-4 flex items-center text-xs text-gray-400 hover:text-gray-600 font-medium active:scale-95"
+            className="absolute inset-y-0 right-0 pr-4 flex items-center text-xs text-red-500 hover:text-red-700 font-extrabold active:scale-95 cursor-pointer"
           >
-            Clear
+            CLEAR
           </button>
         )}
       </div>
 
-      {/* Horizontal Scrollable Filter Chips row */}
-      <div className="w-full flex flex-col gap-2 relative">
-        <div className="flex items-center gap-1 text-xs font-semibold text-gray-500 uppercase tracking-widest pl-1">
-          <Leaf className="w-3.5 h-3.5 text-[#2E7D32]" /> Filter By Category:
-        </div>
-        <div className="flex gap-2 overflow-x-auto pb-1.5 no-scrollbar scroll-smooth">
-          {CATEGORIES.map((category) => {
-            const isActive = selectedCategory === category;
-            return (
-              <button
-                key={category}
-                onClick={() => setSelectedCategory(category)}
-                className={`flex-shrink-0 px-5 py-2 rounded-full text-xs sm:text-xs font-semibold tracking-wide transition-all duration-250 cursor-pointer active:scale-95 border ${
-                  isActive
-                    ? 'bg-[#2E7D32] text-white border-[#2E7D32] shadow-sm'
-                    : 'bg-white text-gray-700 border-gray-200 hover:bg-gray-50'
-                }`}
-              >
-                {category}
-              </button>
-            );
-          })}
-        </div>
-      </div>
-
-      {/* [E] Clock Banner Header info card */}
-      <div className="w-full bg-[#EAF6EA] border border-green-200 rounded-2xl p-3.5 flex items-start gap-3 shadow-sm select-none">
+      {/* Clock Banner Header info card (Square edges) */}
+      <div className="w-full bg-[#EAF6EA] border-2 border-green-200 p-4 flex items-start gap-3 shadow-xs select-none rounded-none">
         <Clock className="w-5 h-5 text-[#2E7D32] flex-shrink-0 mt-0.5" />
         <div>
-          <h2 className="text-sm font-semibold text-gray-800 leading-tight">
+          <h2 className="text-sm font-black text-gray-800 leading-tight uppercase tracking-wider">
             Today's Fresh Selection
           </h2>
-          <p className="text-xs text-gray-500 mt-1">
+          <p className="text-xs font-semibold text-gray-600 mt-1.5 leading-relaxed">
             Prices and availability are updated daily at 4AM directly from Surat wholesale farm markets.
           </p>
         </div>
