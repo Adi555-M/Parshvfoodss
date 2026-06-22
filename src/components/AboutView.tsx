@@ -17,14 +17,14 @@ export default function AboutView() {
         {/* Beautiful Representative Fresh Harvest Graphic Image Card with square frame */}
         <div className="border border-gray-300 p-1.5 bg-gray-50">
           <img
-            src="https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&w=800&q=80"
-            alt="Fresh morning harvest at market"
-            className="w-full h-48 object-cover object-center grayscale-[15%] brightness-95"
+            src="https://images.unsplash.com/photo-1498837167922-ddd27525d352?auto=format&fit=crop&w=800&q=80"
+            alt="Healthy fresh produce and ingredients"
+            className="w-full h-48 object-cover object-center grayscale-[5%] brightness-95"
             referrerPolicy="no-referrer"
           />
           <div className="bg-white text-center py-2 px-1 border-t border-gray-200">
             <span className="text-xs font-semibold text-gray-500 block">
-              Our team selecting the freshest produce at 3:30 AM in the local market
+              Directly sourcing and delivering healthy, natural and vitamins-rich garden-fresh crops every morning at 4:00 AM
             </span>
           </div>
         </div>

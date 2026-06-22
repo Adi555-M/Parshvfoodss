@@ -129,7 +129,7 @@ export default function ProfileDrawer({ isOpen, profile, onClose, onSave }: Prof
                 value={formData.phone}
                 onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                 placeholder="Enter your phone number (e.g. +91 98765 43210)"
-                className="w-full bg-gray-50 text-gray-850 border-2 border-gray-300 pl-11 pr-4 py-3 text-xs font-black outline-none focus:border-[#2E7D32] focus:bg-white transition-all rounded-none font-mono"
+                className="w-full bg-gray-50 text-gray-850 border-2 border-gray-300 pl-11 pr-4 py-3 text-xs font-black outline-none focus:border-[#2E7D32] focus:bg-white transition-all rounded-none uppercase"
               />
             </div>
           </div>

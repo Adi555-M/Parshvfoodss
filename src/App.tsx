@@ -416,7 +416,7 @@ export default function App() {
                   </div>
                   <div className="text-left font-bold">
                     <span className="text-[10px] text-green-150 block uppercase tracking-wide">
-                      {cartItemSummary.distinctTypes} {cartItemSummary.distinctTypes === 1 ? 'variety' : 'varieties'} selected
+                      {cartItemSummary.distinctTypes} {cartItemSummary.distinctTypes === 1 ? 'vegetable' : 'vegetables'} selected
                     </span>
                     <span className="text-xs uppercase tracking-wider block font-black text-white">
                       View Basket
