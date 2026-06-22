@@ -114,7 +114,7 @@ export default function Sections({
         </section>
       )}
 
-      <footer className="w-full bg-[#2E7D32] text-white pt-10 pb-20 px-4 border-t-2 border-green-800 select-none text-left">
+      <footer id="pf-global-footer" className="w-full bg-[#2E7D32] text-white pt-10 pb-6 px-4 border-t-2 border-green-800 select-none text-left">
         <div className="max-w-lg md:max-w-3xl lg:max-w-5xl xl:max-w-7xl mx-auto flex flex-col gap-8">
           
           {/* Main Footer columns */}

@@ -67,58 +67,62 @@ export default function Navbar({
           </div>
         </div>
 
-        {/* 3. HORIZONTAL PILLS TAB RIBBON (Square Borders) */}
-        <div className="w-full flex items-center justify-center max-w-7xl mx-auto md:px-4 mt-0.5">
-          <div className="grid grid-cols-4 gap-2 w-full">
+        {/* 3. HORIZONTAL PILLS TAB RIBBON (Elegant Underlined Styling with White Line) */}
+        <div id="pf-tab-ribbon" className="w-full flex items-center justify-center max-w-7xl mx-auto md:px-4 mt-1">
+          <div className="grid grid-cols-4 gap-1 w-full border-b border-white/20">
             {/* Home Pill */}
             <button
+              id="pf-tab-home"
               onClick={() => setActiveTab('home')}
-              className={`flex items-center justify-center gap-1.5 py-2.5 px-1 text-center font-bold text-xs border transition-all cursor-pointer rounded-none uppercase tracking-wide ${
+              className={`flex flex-col sm:flex-row items-center justify-center gap-1 sm:gap-1.5 py-2 px-1 text-center font-bold text-[11.5px] sm:text-xs transition-all cursor-pointer rounded-none uppercase tracking-wide focus:outline-none ${
                 activeTab === 'home'
-                  ? 'bg-white text-[#2E7D32] border-white font-extrabold shadow-sm'
-                  : 'bg-white/10 text-white border-white/20 hover:bg-white/15'
+                  ? 'text-white border-b-4 border-white font-black bg-white/5'
+                  : 'text-white/75 hover:text-white border-b-4 border-transparent hover:border-white/10'
               }`}
             >
-              <Home className="w-4.5 h-4.5 sm:w-5 sm:h-5 shrink-0" />
+              <Home className="w-4 h-4 sm:w-4.5 sm:h-4.5 shrink-0" />
               <span>Home</span>
             </button>
 
             {/* About Pill */}
             <button
+              id="pf-tab-about"
               onClick={() => setActiveTab('about')}
-              className={`flex items-center justify-center gap-1.5 py-2.5 px-1 text-center font-bold text-xs border transition-all cursor-pointer rounded-none uppercase tracking-wide ${
+              className={`flex flex-col sm:flex-row items-center justify-center gap-1 sm:gap-1.5 py-2 px-1 text-center font-bold text-[11.5px] sm:text-xs transition-all cursor-pointer rounded-none uppercase tracking-wide focus:outline-none ${
                 activeTab === 'about'
-                  ? 'bg-white text-[#2E7D32] border-white font-extrabold shadow-sm'
-                  : 'bg-white/10 text-white border-white/20 hover:bg-white/15'
+                  ? 'text-white border-b-4 border-white font-black bg-white/5'
+                  : 'text-white/75 hover:text-white border-b-4 border-transparent hover:border-white/10'
               }`}
             >
-              <Info className="w-4.5 h-4.5 sm:w-5 sm:h-5 shrink-0" />
+              <Info className="w-4 h-4 sm:w-4.5 sm:h-4.5 shrink-0" />
               <span>About</span>
             </button>
 
             {/* Contact Pill */}
             <button
+              id="pf-tab-contact"
               onClick={() => setActiveTab('contact')}
-              className={`flex items-center justify-center gap-1.5 py-2.5 px-1 text-center font-bold text-xs border transition-all cursor-pointer rounded-none uppercase tracking-wide ${
+              className={`flex flex-col sm:flex-row items-center justify-center gap-1 sm:gap-1.5 py-2 px-1 text-center font-bold text-[11.5px] sm:text-xs transition-all cursor-pointer rounded-none uppercase tracking-wide focus:outline-none ${
                 activeTab === 'contact'
-                  ? 'bg-white text-[#2E7D32] border-white font-extrabold shadow-sm'
-                  : 'bg-white/10 text-white border-white/20 hover:bg-white/15'
+                  ? 'text-white border-b-4 border-white font-black bg-white/5'
+                  : 'text-white/75 hover:text-white border-b-4 border-transparent hover:border-white/10'
               }`}
             >
-              <Mail className="w-4.5 h-4.5 sm:w-5 sm:h-5 shrink-0 text-red-500 animate-pulse" style={{ animationDuration: '3s' }} />
+              <Mail className="w-4 h-4 sm:w-4.5 sm:h-4.5 shrink-0" />
               <span className="font-extrabold">Contact</span>
             </button>
 
             {/* Orders Pill */}
             <button
+              id="pf-tab-orders"
               onClick={() => setActiveTab('orders')}
-              className={`flex items-center justify-center gap-1.5 py-2.5 px-1 text-center font-bold text-xs border transition-all cursor-pointer rounded-none uppercase tracking-wide ${
+              className={`flex flex-col sm:flex-row items-center justify-center gap-1 sm:gap-1.5 py-2 px-1 text-center font-bold text-[11.5px] sm:text-xs transition-all cursor-pointer rounded-none uppercase tracking-wide focus:outline-none ${
                 activeTab === 'orders'
-                  ? 'bg-white text-[#2E7D32] border-white font-extrabold shadow-sm'
-                  : 'bg-white/10 text-white border-white/20 hover:bg-white/15'
+                  ? 'text-white border-b-4 border-white font-black bg-white/5'
+                  : 'text-white/75 hover:text-white border-b-4 border-transparent hover:border-white/10'
               }`}
             >
-              <RotateCcw className="w-4.5 h-4.5 sm:w-5 sm:h-5 shrink-0" />
+              <RotateCcw className="w-4 h-4 sm:w-4.5 sm:h-4.5 shrink-0" />
               <span>Orders</span>
             </button>
           </div>
