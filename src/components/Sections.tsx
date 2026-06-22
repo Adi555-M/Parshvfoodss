@@ -114,7 +114,7 @@ export default function Sections({
         </section>
       )}
 
-      <footer id="pf-global-footer" className="w-full bg-[#2E7D32] text-white pt-10 pb-6 px-4 border-t-2 border-green-800 select-none text-left">
+      <footer id="pf-global-footer" className="w-full bg-[#2E7D32] text-white pt-10 pb-8 px-4 border-t-2 border-green-800 select-none text-left">
         <div className="max-w-lg md:max-w-3xl lg:max-w-5xl xl:max-w-7xl mx-auto flex flex-col gap-8">
           
           {/* Main Footer columns */}
@@ -144,7 +144,7 @@ export default function Sections({
 
             {/* Quick Links with setActiveTab integration */}
             <div className="flex flex-col gap-3">
-              <h4 className="font-black text-xs tracking-wider uppercase text-white border-b border-green-800 pb-1">
+              <h4 className="font-black text-xs tracking-wider uppercase text-white border-b border-white/60 pb-1.5">
                 Quick Links
               </h4>
               <div className="flex flex-col gap-2 mt-1 text-xs font-bold text-green-100">
@@ -153,7 +153,7 @@ export default function Sections({
                     setActiveTab('home');
                     window.scrollTo({ top: 0, behavior: 'smooth' });
                   }}
-                  className="text-left hover:text-white hover:underline transition-all cursor-pointer"
+                  className="text-left hover:text-white hover:underline transition-all cursor-pointer focus:outline-none"
                 >
                   HOME
                 </button>
@@ -162,7 +162,7 @@ export default function Sections({
                     setActiveTab('about');
                     window.scrollTo({ top: 0, behavior: 'smooth' });
                   }}
-                  className="text-left hover:text-white hover:underline transition-all cursor-pointer"
+                  className="text-left hover:text-white hover:underline transition-all cursor-pointer focus:outline-none"
                 >
                   ABOUT US
                 </button>
@@ -171,7 +171,7 @@ export default function Sections({
                     setActiveTab('contact');
                     window.scrollTo({ top: 0, behavior: 'smooth' });
                   }}
-                  className="text-left hover:text-white hover:underline transition-all cursor-pointer"
+                  className="text-left hover:text-white hover:underline transition-all cursor-pointer focus:outline-none"
                 >
                   CONTACT
                 </button>
@@ -180,7 +180,7 @@ export default function Sections({
                     setActiveTab('orders');
                     window.scrollTo({ top: 0, behavior: 'smooth' });
                   }}
-                  className="text-left hover:text-white hover:underline transition-all cursor-pointer"
+                  className="text-left hover:text-white hover:underline transition-all cursor-pointer focus:outline-none"
                 >
                   YOUR BASKET & ORDERS
                 </button>
@@ -189,7 +189,7 @@ export default function Sections({
 
             {/* Delivery timings & terms */}
             <div className="flex flex-col gap-3">
-              <h4 className="font-black text-xs tracking-wider uppercase text-white border-b border-green-800 pb-1">
+              <h4 className="font-black text-xs tracking-wider uppercase text-white border-b border-white/60 pb-1.5">
                 Delivery Info
               </h4>
               <div className="flex flex-col gap-2 mt-1 text-xs text-green-100 font-semibold leading-relaxed">
